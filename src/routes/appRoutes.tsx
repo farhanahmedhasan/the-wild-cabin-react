@@ -2,7 +2,7 @@ import { Navigate, RouteObject } from 'react-router'
 
 import Error404 from '@/pages/landings/error/Error404'
 import AuthLogin from '@/pages/auth/AuthLogin'
-import AppLayout from '@/layout/AppLayout'
+import AppLayout from '@/layout/app/AppLayout'
 
 const appRoutes: RouteObject[] = [
   {

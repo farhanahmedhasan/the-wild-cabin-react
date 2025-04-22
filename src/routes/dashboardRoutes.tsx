@@ -4,9 +4,9 @@ import DashboardBookings from '@/pages/dashboards/DashboardBookings'
 import DashboardSettings from '@/pages/dashboards/DashboardSettings'
 import DashboardAccount from '@/pages/dashboards/DashboardAccount'
 import DashboardCabins from '@/pages/dashboards/DashboardCabins'
+import DashboardLayout from '@/layout/dashboard/DashboardLayout'
 import DashboardUsers from '@/pages/dashboards/DashboardUsers'
 import DashboardHome from '@/pages/dashboards/DashboardHome'
-import DashboardLayout from '@/layout/DashboardLayout'
 
 const dashboardRoutes: RouteObject[] = [
   {
