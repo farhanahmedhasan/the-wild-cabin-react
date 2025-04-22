@@ -1,16 +1,8 @@
 import { RouteObject } from 'react-router'
 
-import Error404 from '@/pages/landings/error/Error404'
-import dashboardRoutes from './DashboardRoutes'
-import landingRoutes from './landingRoutes'
+import dashboardRoutes from '@/routes/dashboardRoutes'
+import appRoutes from '@/routes/appRoutes'
 
-const routes: RouteObject[] = [
-  ...dashboardRoutes,
-  ...landingRoutes,
-  {
-    path: '*',
-    element: <Error404 />
-  }
-]
+const routes: RouteObject[] = [...dashboardRoutes, ...appRoutes]
 
 export default routes

@@ -1,4 +1,4 @@
-import { RouteObject } from 'react-router'
+import { Navigate, RouteObject } from 'react-router'
 
 import DashboardBookings from '@/pages/dashboards/DashboardBookings'
 import DashboardSettings from '@/pages/dashboards/DashboardSettings'
@@ -6,32 +6,42 @@ import DashboardAccount from '@/pages/dashboards/DashboardAccount'
 import DashboardCabins from '@/pages/dashboards/DashboardCabins'
 import DashboardUsers from '@/pages/dashboards/DashboardUsers'
 import DashboardHome from '@/pages/dashboards/DashboardHome'
+import DashboardLayout from '@/layout/DashboardLayout'
 
 const dashboardRoutes: RouteObject[] = [
   {
-    path: '/dashboard/home',
-    element: <DashboardHome />
-  },
-  {
-    path: '/dashboard/bookings',
-    element: <DashboardBookings />
-  },
-  {
-    path: '/dashboard/cabins',
-    element: <DashboardCabins />
-  },
-  {
-    path: '/dashboard/users',
-    element: <DashboardUsers />
-  },
-  {
-    path: '/dashboard/settings',
-    element: <DashboardSettings />
-  },
-  {
-    path: '/dashboard/account',
-    element: <DashboardAccount />
+    path: '/dashboard',
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: '',
+        element: <Navigate to="home" />
+      },
+      {
+        path: 'home',
+        element: <DashboardHome />
+      },
+      {
+        path: 'bookings',
+        element: <DashboardBookings />
+      },
+      {
+        path: 'cabins',
+        element: <DashboardCabins />
+      },
+      {
+        path: 'users',
+        element: <DashboardUsers />
+      },
+      {
+        path: 'settings',
+        element: <DashboardSettings />
+      },
+      {
+        path: 'account',
+        element: <DashboardAccount />
+      }
+    ]
   }
 ]
-
 export default dashboardRoutes
