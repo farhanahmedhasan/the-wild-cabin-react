@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/Button'
+import Heading from '@/components/ui/Heading'
 
 export default function HomePage() {
   return (
@@ -18,6 +19,9 @@ export default function HomePage() {
         <Button variant="secondary">Check in</Button>
         <Button variant="danger">Check in</Button>
       </div>
+      <Heading>This is a heading component</Heading>
+      <Heading variant="h2">This is a heading component</Heading>
+      <Heading variant="h3">This is a heading component</Heading>
     </div>
   )
 }
