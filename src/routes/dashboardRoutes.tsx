@@ -6,8 +6,6 @@ import DashboardAccount from '@/pages/dashboards/DashboardAccount'
 import DashboardCabins from '@/pages/dashboards/DashboardCabins'
 import DashboardUsers from '@/pages/dashboards/DashboardUsers'
 import DashboardHome from '@/pages/dashboards/DashboardHome'
-import Error404 from '@/pages/landings/error/Error404'
-import AuthLogin from '@/pages/auth/AuthLogin'
 
 const dashboardRoutes: RouteObject[] = [
   {
@@ -33,14 +31,6 @@ const dashboardRoutes: RouteObject[] = [
   {
     path: '/dashboard/account',
     element: <DashboardAccount />
-  },
-  {
-    path: '/login',
-    element: <AuthLogin />
-  },
-  {
-    path: '*',
-    element: <Error404 />
   }
 ]
 

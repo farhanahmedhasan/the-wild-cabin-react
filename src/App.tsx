@@ -1,8 +1,9 @@
 import { useRoutes } from 'react-router'
-import dashboardRoutes from '@/routes'
+
+import routes from '@/routes/routes'
 
 function App() {
-  return useRoutes(dashboardRoutes)
+  return useRoutes(routes)
 }
 
 export default App
