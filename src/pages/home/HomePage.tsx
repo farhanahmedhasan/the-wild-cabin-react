@@ -1,6 +1,8 @@
+import { Button } from '@/components/ui/Button'
+
 export default function HomePage() {
   return (
-    <div>
+    <div className="m-6 space-y-5 text-gr">
       <p className="font-sono">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur porro totam provident molestias ipsum omnis
         est accusamus dolore corrupti molestiae facilis error eligendi eius ipsa similique repellat, et veritatis
@@ -11,6 +13,11 @@ export default function HomePage() {
         molestiae distinctio officiis eligendi eos suscipit provident possimus, consequuntur a aliquam. Earum.
       </p>
       <img className="h-12" src="/assets/images/logo.png" />
+      <div className="space-x-4">
+        <Button>Check in</Button>
+        <Button variant="secondary">Check in</Button>
+        <Button variant="danger">Check in</Button>
+      </div>
     </div>
   )
 }
