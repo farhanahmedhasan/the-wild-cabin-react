@@ -10,6 +10,7 @@ export default function HomePage() {
         quaerat harum rem, modi consequatur dicta voluptatibus fuga voluptates odio quidem alias atque, perspiciatis
         molestiae distinctio officiis eligendi eos suscipit provident possimus, consequuntur a aliquam. Earum.
       </p>
+      <img className="h-12" src="/assets/images/logo.png" />
     </div>
   )
 }
