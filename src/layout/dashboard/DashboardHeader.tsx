@@ -1,3 +1,3 @@
 export default function DashboardHeader() {
-  return <header>DashboardHeader</header>
+  return <nav>DashboardHeader</nav>
 }
