@@ -6,7 +6,7 @@ import DashboardHeader from '@/layout/dashboard/DashboardHeader'
 export default function DashboardLayout() {
   return (
     <div className="h-dvh grid grid-cols-[auto_1fr]">
-      <aside className="min-w-56 py-12 px-8 bg-gray-0 border-r border-gray-100 overflow-y-auto">
+      <aside className="max-w-60 py-8 px-6 bg-gray-0 border-r border-gray-100 overflow-y-auto">
         <DashboardSidebar />
       </aside>
 
