@@ -11,10 +11,10 @@ export default function DashboardLayout() {
       </aside>
 
       <div className="flex flex-col overflow-y-auto">
-        <header className="py-5 px-20 bg-gray-0 border-b border-gray-100">
+        <header className="py-5 px-12 bg-gray-0 border-b border-gray-100">
           <DashboardHeader />
         </header>
-        <main className="flex-1 pt-16 px-20 pb-25 bg-gray-50 overflow-y-auto">
+        <main className="flex-1 pt-8 px-12 pb-16 bg-gray-50 overflow-y-auto">
           <Outlet />
         </main>
       </div>

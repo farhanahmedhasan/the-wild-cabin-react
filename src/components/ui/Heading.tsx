@@ -7,9 +7,9 @@ import { cn } from '@/lib/utils'
 const headingVariants = cva('font-poppins', {
   variants: {
     variant: {
-      h1: 'text-5xl font-bold leading-[1.4]',
-      h2: 'text-[32px] font-bold leading-[1.4]',
-      h3: 'text-[32px] font-medium leading-[1.4]'
+      h1: 'text-[38px] font-bold leading-[1.4]',
+      h2: 'text-[30px] font-bold leading-[1.4]',
+      h3: 'text-[30px] font-medium leading-[1.4]'
     }
   },
   defaultVariants: {
