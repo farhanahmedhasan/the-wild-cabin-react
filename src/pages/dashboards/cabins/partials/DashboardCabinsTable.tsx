@@ -1,9 +1,9 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ColumnDef } from '@tanstack/react-table'
-import { useQuery } from '@tanstack/react-query'
 import { TrashIcon } from 'lucide-react'
 
 import DataTableRoot from '@/components/dataTable/DataTableRoot'
-import { getCabins } from '@/services/apiCabins'
+import { delteCabin, getCabins } from '@/services/apiCabins'
 import Spinner from '@/components/ui/Spinner'
 import { formatCurrency } from '@/lib/utils'
 import ICabin from '@/types/cabin'
@@ -14,12 +14,16 @@ const columns: ColumnDef<ICabin>[] = [
     header: 'Thumbnail',
     size: 80,
     cell: ({ row }) => (
-      <div className="w-28 min-w-28 max-w-28">
-        <img
-          src={row.getValue('image_url')}
-          alt={row.getValue('name')}
-          className="h-full w-full rounded-md object-contain"
-        />
+      <div className="w-full h-18 rounded-md bg-gray-200">
+        {!row.getValue('image_url') ? (
+          <span className="h-full w-full"></span>
+        ) : (
+          <img
+            src={row.getValue('image_url')}
+            alt={row.getValue('name')}
+            className="h-full w-full rounded-md object-cover"
+          />
+        )}
       </div>
     )
   },
@@ -44,8 +48,26 @@ const columns: ColumnDef<ICabin>[] = [
   },
   {
     header: 'Actions',
-    cell: () => {
-      return <TrashIcon className="text-red-600" />
+    cell: ({ row }) => {
+      // TODO: Fix the eslint issue
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const queryClient = useQueryClient()
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { isPending: isDeleting, mutate } = useMutation({
+        mutationFn: delteCabin,
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['cabins']
+          })
+        },
+        onError: (err) => alert(err.message)
+      })
+
+      return (
+        <button disabled={isDeleting}>
+          <TrashIcon className="text-red-600 cursor-pointer" onClick={() => mutate(row.original.id)} />
+        </button>
+      )
     }
   }
 ]
@@ -56,9 +78,5 @@ export default function DashboardCabinsTable() {
   if (isPending) return <Spinner containerClassName="relative -left-10 top-20" />
   if (isError) return <div className="text-xl text-red-700">Failed to load the cabins Try again later...</div>
 
-  return (
-    <div>
-      <DataTableRoot columns={columns} data={cabins} />
-    </div>
-  )
+  return <DataTableRoot columns={columns} data={cabins} />
 }

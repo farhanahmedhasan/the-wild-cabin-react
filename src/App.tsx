@@ -5,14 +5,7 @@ import { useRoutes } from 'react-router'
 
 import routes from '@/routes/routes'
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      // Will be 0 later
-      staleTime: 60 * 1000
-    }
-  }
-})
+const queryClient = new QueryClient()
 
 function App() {
   return (
