@@ -8,9 +8,17 @@ import ICabin from '@/types/cabin'
 
 const columns: ColumnDef<ICabin>[] = [
   {
+    header: 'Thumbnail',
     accessorKey: 'image_url',
+    size: 80,
     cell: ({ row }) => (
-      <img src={row.getValue('image_url')} alt={row.getValue('name')} className="h-16 rounded-md object-contain" />
+      <div className="w-28 min-w-28 max-w-28">
+        <img
+          src={row.getValue('image_url')}
+          alt={row.getValue('name')}
+          className="h-full w-full rounded-md object-contain"
+        />
+      </div>
     )
   },
   {
@@ -27,7 +35,8 @@ const columns: ColumnDef<ICabin>[] = [
   },
   {
     accessorKey: 'discount',
-    header: 'Discount'
+    header: 'Discount',
+    cell: ({ row }) => row.getValue('discount') + '%'
   }
 ]
 
