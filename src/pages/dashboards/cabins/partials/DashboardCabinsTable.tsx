@@ -1,15 +1,17 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { useQuery } from '@tanstack/react-query'
+import { TrashIcon } from 'lucide-react'
 
 import DataTableRoot from '@/components/dataTable/DataTableRoot'
 import { getCabins } from '@/services/apiCabins'
 import Spinner from '@/components/ui/Spinner'
+import { formatCurrency } from '@/lib/utils'
 import ICabin from '@/types/cabin'
 
 const columns: ColumnDef<ICabin>[] = [
   {
-    header: 'Thumbnail',
     accessorKey: 'image_url',
+    header: 'Thumbnail',
     size: 80,
     cell: ({ row }) => (
       <div className="w-28 min-w-28 max-w-28">
@@ -27,16 +29,24 @@ const columns: ColumnDef<ICabin>[] = [
   },
   {
     accessorKey: 'max_capacity',
-    header: 'Capacity'
+    header: 'Capacity',
+    cell: ({ row }) => `Upto ${row.getValue('max_capacity')} guests`
   },
   {
     accessorKey: 'regular_price',
-    header: 'Price'
+    header: 'Price',
+    cell: ({ row }) => formatCurrency(row.getValue('regular_price'))
   },
   {
     accessorKey: 'discount',
     header: 'Discount',
-    cell: ({ row }) => row.getValue('discount') + '%'
+    cell: ({ row }) => <span className="text-green-700">{formatCurrency(row.getValue('discount'))}</span>
+  },
+  {
+    header: 'Actions',
+    cell: () => {
+      return <TrashIcon className="text-red-600" />
+    }
   }
 ]
 
