@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ColumnDef } from '@tanstack/react-table'
 import { TrashIcon } from 'lucide-react'
 
+import { customToastError, customToastSuccess } from '@/components/toast'
 import DataTableRoot from '@/components/dataTable/DataTableRoot'
 import { delteCabin, getCabins } from '@/services/apiCabins'
 import Spinner from '@/components/ui/Spinner'
@@ -59,8 +60,9 @@ const columns: ColumnDef<ICabin>[] = [
           queryClient.invalidateQueries({
             queryKey: ['cabins']
           })
+          customToastSuccess('Cabin has been deleted successfully.')
         },
-        onError: (err) => alert(err.message)
+        onError: (err) => customToastError(err.message)
       })
 
       return (
