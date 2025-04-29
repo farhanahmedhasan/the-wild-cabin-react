@@ -1,4 +1,6 @@
+import FormTextarea from '@/components/form/FormTextArea'
 import FormInput from '@/components/form/FormInput'
+
 import { Button } from '@/components/ui/Button'
 
 export default function DashboardCabinCreate() {
@@ -9,7 +11,7 @@ export default function DashboardCabinCreate() {
         <FormInput label="Maximum Capacity" name="max_capacity" required />
         <FormInput label="Regular Price" name="regular_price" required />
         <FormInput label="Discount" name="discount" />
-        <FormInput containerClassName="col-span-2" label="Description For Website" name="description" />
+        <FormTextarea containerClassName="col-span-2" label="Description For Website" name="description" />
         <FormInput containerClassName="col-span-2" label="Cabin Photo" name="image_url" />
       </div>
 
