@@ -1,4 +1,5 @@
-import DashboardCabinsTable from '@/pages/dashboards/cabins/partials/DashboardCabinsTable'
+import DashboardCabinsTable from '@/pages/dashboards/cabins/partials/DashboardCabinIndexTable'
+import DashboardCabinCreate from '@/pages/dashboards/cabins/DashboardCabinCreate'
 import Heading from '@/components/ui/Heading'
 
 export default function DashboardCabins() {
@@ -10,6 +11,10 @@ export default function DashboardCabins() {
       </div>
 
       <DashboardCabinsTable />
+
+      <div className="p-6 bg-gray-0 mt-10 rounded-md">
+        <DashboardCabinCreate />
+      </div>
     </>
   )
 }
