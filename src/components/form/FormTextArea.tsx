@@ -31,6 +31,7 @@ const FormTextarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
             'h-30 peer flex w-full rounded-md border border-gray-300 bg-white text-sm text-gray-600 px-4 py-3.5 outline-none transition-all duration-500 placeholder:text-gray-400 disabled:cursor-not-allowed disabled:opacity-50',
             className
           )}
+          id={props.name}
           ref={ref}
           {...props}
         />
