@@ -3,6 +3,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { BrowserRouter } from 'react-router'
 import { useRoutes } from 'react-router'
 
+import { TooltipProvider } from '@/components/ui/Tooltip'
 import routes from '@/routes/routes'
 
 const queryClient = new QueryClient()
@@ -10,10 +11,12 @@ const queryClient = new QueryClient()
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes />
-      </BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <TooltipProvider>
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </TooltipProvider>
     </QueryClientProvider>
   )
 }

@@ -9,8 +9,8 @@ export default function DashboardCabinCreate() {
       <div className="grid grid-cols-2 gap-4">
         <FormInput label="Cabin Name" name="name" required />
         <FormInput label="Maximum Capacity" name="max_capacity" required />
-        <FormInput label="Regular Price" name="regular_price" required />
-        <FormInput label="Discount" name="discount" />
+        <FormInput label="Regular Price" type="number" name="regular_price" required />
+        <FormInput label="Discount" type="number" name="discount" />
         <FormTextarea containerClassName="col-span-2" label="Description For Website" name="description" />
         <FormInput containerClassName="col-span-2" label="Cabin Photo" name="image_url" />
       </div>

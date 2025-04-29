@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { HousePlusIcon, PencilIcon, TrashIcon } from 'lucide-react'
 import { ColumnDef } from '@tanstack/react-table'
-import { TrashIcon } from 'lucide-react'
 
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip'
 import { customToastError, customToastSuccess } from '@/components/toast'
 import DataTableRoot from '@/components/dataTable/DataTableRoot'
 import { delteCabin, getCabins } from '@/services/apiCabins'
@@ -66,9 +67,22 @@ const columns: ColumnDef<ICabin>[] = [
       })
 
       return (
-        <button disabled={isDeleting}>
-          <TrashIcon className="text-red-600 cursor-pointer" onClick={() => mutate(row.original.id)} />
-        </button>
+        <div className="flex items-center gap-1.5">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <HousePlusIcon className="h-5 text-primary-600 cursor-pointer" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Add a cabin</p>
+            </TooltipContent>
+          </Tooltip>
+
+          <PencilIcon className="h-5 text-gray-700 cursor-pointer" />
+
+          <button disabled={isDeleting}>
+            <TrashIcon className="h-5 text-red-600 cursor-pointer" onClick={() => mutate(row.original.id)} />
+          </button>
+        </div>
       )
     }
   }
