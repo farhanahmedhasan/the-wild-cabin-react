@@ -8,7 +8,7 @@ import DataTableRoot from '@/components/dataTable/DataTableRoot'
 import { delteCabin, getCabins } from '@/services/apiCabins'
 import Spinner from '@/components/ui/Spinner'
 import { formatCurrency } from '@/lib/utils'
-import ICabin from '@/types/cabin'
+import { ICabin } from '@/types/cabin'
 
 const columns: ColumnDef<ICabin>[] = [
   {

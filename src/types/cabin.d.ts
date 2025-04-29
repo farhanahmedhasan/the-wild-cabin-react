@@ -1,4 +1,4 @@
-export default interface ICabin {
+export interface ICabin {
   id: number
   name: string
   image_url: string
@@ -6,4 +6,13 @@ export default interface ICabin {
   max_capacity: number
   regular_price: number
   discount: number
+}
+
+export interface ICabinCreateInputProps {
+  name: string
+  max_capacity: string
+  regular_price: string
+  discount: string
+  description: string
+  image_url: string
 }
