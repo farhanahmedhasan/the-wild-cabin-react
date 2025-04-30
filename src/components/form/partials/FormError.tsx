@@ -6,5 +6,5 @@ interface IProps {
 }
 
 export default function FormErrorPartial(props: IProps) {
-  return <p className={cn('text-sm text-red-700 pt-1', props.className)}>{props.message}</p>
+  return <p className={cn('ml-1 text-xs text-red-700 pt-1', props.className)}>{props.message}</p>
 }

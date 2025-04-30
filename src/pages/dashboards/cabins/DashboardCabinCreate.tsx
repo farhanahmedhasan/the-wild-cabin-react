@@ -1,15 +1,23 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
 import { customToastError, customToastSuccess } from '@/components/toast'
+import { cabinSchema, CabinSchemaType } from '@/schemas/cabinSchema'
 import FormTextarea from '@/components/form/FormTextArea'
-import { ICabinCreateInputProps } from '@/types/cabin'
 import FormInput from '@/components/form/FormInput'
 import { createCabin } from '@/services/apiCabins'
 import { Button } from '@/components/ui/Button'
 
 export default function DashboardCabinCreate() {
-  const { register, handleSubmit, reset } = useForm<ICabinCreateInputProps>()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<CabinSchemaType>({
+    resolver: zodResolver(cabinSchema)
+  })
 
   const queryClient = useQueryClient()
   const { isPending: isCreating, mutate } = useMutation({
@@ -25,19 +33,42 @@ export default function DashboardCabinCreate() {
     onError: (err) => customToastError(err.message)
   })
 
-  function onSubmit(data: ICabinCreateInputProps) {
+  function onSubmit(data: CabinSchemaType) {
     mutate(data)
   }
 
   return (
     <form className="font-poppins space-y-5" onSubmit={handleSubmit(onSubmit)}>
       <div className="grid grid-cols-2 gap-4">
-        <FormInput label="Cabin Name" {...register('name')} required />
-        <FormInput label="Maximum Capacity" type="number" {...register('max_capacity')} required />
-        <FormInput label="Regular Price" type="number" {...register('regular_price')} required />
-        <FormInput label="Discount" type="number" defaultValue={0} {...register('discount')} />
+        <FormInput label="Cabin Name" {...register('name')} errorMessage={errors.name?.message} required />
+        <FormInput
+          label="Maximum Capacity"
+          type="number"
+          {...register('max_capacity')}
+          errorMessage={errors.max_capacity?.message}
+          required
+        />
+        <FormInput
+          label="Regular Price"
+          type="text"
+          {...register('regular_price')}
+          required
+          errorMessage={errors.regular_price?.message}
+        />
+        <FormInput
+          label="Discount"
+          type="text"
+          defaultValue={0}
+          {...register('discount')}
+          errorMessage={errors.discount?.message}
+        />
         <FormTextarea containerClassName="col-span-2" label="Description For Website" {...register('description')} />
-        <FormInput containerClassName="col-span-2" label="Cabin Photo" {...register('image_url')} />
+        <FormInput
+          containerClassName="col-span-2"
+          label="Cabin Photo"
+          {...register('image_url')}
+          errorMessage={errors.image_url?.message}
+        />
       </div>
 
       <div className="flex justify-end gap-2">
