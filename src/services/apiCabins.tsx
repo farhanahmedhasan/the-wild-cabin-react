@@ -1,5 +1,5 @@
-import supabase from '@/services/supabase'
-import { ICabinCreateInputProps } from '@/types/cabin'
+import supabase, { supabaseCabinImagesBucket } from '@/services/supabase'
+import { CabinSchemaType } from '@/schemas/cabinSchema'
 
 export async function getCabins() {
   try {
@@ -15,12 +15,31 @@ export async function getCabins() {
   }
 }
 
-export async function createCabin(cabin: ICabinCreateInputProps) {
-  const { data, error } = await supabase.from('cabins').insert([cabin]).select()
+export async function createCabin(cabin: CabinSchemaType) {
+  const imageName = `${Date.now()}-${cabin.image?.name}`.replaceAll('/', '')
+  const imagePath = `${supabaseCabinImagesBucket}${imageName}`
+
+  // Create cabin
+  const { data, error } = await supabase
+    .from('cabins')
+    .insert([{ ...cabin, image: cabin.image?.name ? imagePath : null }])
+    .select()
 
   if (error) {
     console.log(error)
     throw new Error("We couldn't create the cabin at the moment.")
+  }
+
+  // Upload image
+  if (cabin.image) {
+    const { error: storageError } = await supabase.storage.from('cabin-images').upload(imageName, cabin.image)
+
+    // Delete the cabin if there was an error uploading the image
+    if (storageError) {
+      await supabase.from('cabins').delete().eq('id', data.id)
+      console.log(storageError)
+      throw new Error('Cabin image could not be uploaded and cabin was not created')
+    }
   }
 
   return data

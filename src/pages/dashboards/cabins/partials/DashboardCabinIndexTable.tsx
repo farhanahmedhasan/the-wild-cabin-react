@@ -12,16 +12,16 @@ import { ICabin } from '@/types/cabin'
 
 const columns: ColumnDef<ICabin>[] = [
   {
-    accessorKey: 'image_url',
+    accessorKey: 'image',
     header: 'Thumbnail',
     size: 80,
     cell: ({ row }) => (
       <div className="w-full h-18 rounded-md bg-gray-200">
-        {!row.getValue('image_url') ? (
+        {!row.getValue('image') ? (
           <span className="h-full w-full"></span>
         ) : (
           <img
-            src={row.getValue('image_url')}
+            src={row.getValue('image')}
             alt={row.getValue('name')}
             className="h-full w-full rounded-md object-cover"
           />

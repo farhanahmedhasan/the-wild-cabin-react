@@ -37,8 +37,8 @@ export default function DashboardCabinCreate() {
   })
 
   function onSubmit(data: CabinSchemaType) {
-    console.log(data)
-    // mutate(data)
+    const image = data.image?.[0]
+    mutate({ ...data, image })
   }
 
   return (
