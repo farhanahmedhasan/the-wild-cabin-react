@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
 
 import { customToastError, customToastSuccess } from '@/components/toast'
 import { cabinSchema, CabinSchemaType } from '@/schemas/cabinSchema'
@@ -12,6 +13,7 @@ import { createCabin } from '@/services/apiCabins'
 import { Button } from '@/components/ui/Button'
 
 export default function DashboardCabinCreate() {
+  const [uploadKey, setUploadKey] = useState(0)
   const {
     register,
     handleSubmit,
@@ -28,6 +30,7 @@ export default function DashboardCabinCreate() {
     onSuccess: () => {
       customToastSuccess('Cabin has been created successfully.')
       reset()
+      setUploadKey((prev) => prev + 1)
       queryClient.invalidateQueries({
         queryKey: ['cabins']
       })
@@ -71,6 +74,7 @@ export default function DashboardCabinCreate() {
         <div className="col-span-2">
           <Label className="pb-1.5">Cabin Image</Label>
           <UploadImage
+            key={uploadKey}
             name="image_url"
             id="image_url"
             errorMessage={typeof errors.image?.message === 'string' ? errors.image.message : undefined}
