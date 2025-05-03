@@ -5,11 +5,11 @@ import { useForm } from 'react-hook-form'
 import { customToastError, customToastSuccess } from '@/components/toast'
 import { cabinSchema, CabinSchemaType } from '@/schemas/cabinSchema'
 import FormTextarea from '@/components/form/FormTextArea'
+import { Label } from '@/components/form/partials/Label'
+import UploadImage from '@/components/form/UploadImage'
 import FormInput from '@/components/form/FormInput'
 import { createCabin } from '@/services/apiCabins'
 import { Button } from '@/components/ui/Button'
-import UploadImage from '@/components/form/UploadImage'
-import { Label } from '@/components/form/partials/Label'
 
 export default function DashboardCabinCreate() {
   const {
@@ -36,7 +36,8 @@ export default function DashboardCabinCreate() {
   })
 
   function onSubmit(data: CabinSchemaType) {
-    mutate(data)
+    console.log(data)
+    // mutate(data)
   }
 
   return (

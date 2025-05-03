@@ -19,7 +19,7 @@ export const cabinSchema = z
 
     // Optional fields
     description: z.string().nullable(),
-    image_url: z.string().url('Image URL must be valid.').nullable().or(z.literal(''))
+    image_url: z.union([z.string(), z.instanceof(File), z.null(), z.object({})]).optional()
   })
   .refine((data) => data.discount < data.regular_price, {
     message: `Discount can't be more or equal to regular price`,
