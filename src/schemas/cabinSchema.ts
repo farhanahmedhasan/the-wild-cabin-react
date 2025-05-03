@@ -1,5 +1,8 @@
 import { z } from 'zod'
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png']
+
 export const cabinSchema = z
   .object({
     name: z.string().min(1, 'Cabin name is required.'),
@@ -19,7 +22,17 @@ export const cabinSchema = z
 
     // Optional fields
     description: z.string().nullable(),
-    image_url: z.union([z.string(), z.instanceof(File), z.null(), z.object({})]).optional()
+    image: z
+      .any()
+      .optional()
+      .refine((file) => {
+        if (!file || file.length === 0) return true
+        return file?.[0]?.size <= MAX_FILE_SIZE
+      })
+      .refine((file) => {
+        if (!file || file.length === 0) return true
+        return ACCEPTED_IMAGE_TYPES.includes(file?.[0]?.type)
+      }, 'Only .jpg, .jpeg, and .png formats are supported.')
   })
   .refine((data) => data.discount < data.regular_price, {
     message: `Discount can't be more or equal to regular price`,

@@ -15,6 +15,7 @@ export default function DashboardCabinCreate() {
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
     formState: { errors }
   } = useForm<CabinSchemaType>({
@@ -69,7 +70,12 @@ export default function DashboardCabinCreate() {
 
         <div className="col-span-2">
           <Label className="pb-1.5">Cabin Image</Label>
-          <UploadImage {...register('image_url')} errorMessage={errors.image_url?.message} />
+          <UploadImage
+            name="image_url"
+            id="image_url"
+            errorMessage={typeof errors.image?.message === 'string' ? errors.image.message : undefined}
+            setValue={setValue}
+          />
         </div>
       </div>
 

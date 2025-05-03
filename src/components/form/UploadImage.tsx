@@ -1,40 +1,48 @@
+import React, { InputHTMLAttributes, useEffect, useState } from 'react'
+import { UseFormSetValue } from 'react-hook-form'
 import { ImagePlusIcon } from 'lucide-react'
-import { InputHTMLAttributes, useState } from 'react'
 
 import FormErrorPartial from '@/components/form/partials/FormError'
+import { CabinSchemaType } from '@/schemas/cabinSchema'
 import { cn } from '@/lib/utils'
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string
+  setValue: UseFormSetValue<CabinSchemaType>
 }
 
-export default function UploadImage({ errorMessage, ...props }: IProps) {
+const UploadImage = React.forwardRef<HTMLInputElement, IProps>(({ errorMessage, setValue, ...props }, ref) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [dragOver, setDragOver] = useState<boolean>(false)
+
+  function handleFile(file: File) {
+    const url = URL.createObjectURL(file)
+    setPreviewUrl(url)
+    setValue('image', file ? [file] : [], { shouldValidate: true })
+  }
 
   function handleDrop(e: React.DragEvent<HTMLLabelElement>) {
     e.preventDefault()
     setDragOver(false)
+
     const file = e.dataTransfer.files?.[0]
-    console.log(file)
-    if (file) {
-      const url = URL.createObjectURL(file)
-      setPreviewUrl(url)
-    }
+    if (file) handleFile(file)
   }
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
-    console.log(file)
-    if (file) {
-      const url = URL.createObjectURL(file)
-      setPreviewUrl(url)
-    }
+    if (file) handleFile(file)
   }
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl)
+    }
+  }, [previewUrl])
 
   return (
     <>
-      <input type="file" id="image_url" accept="image/*" className="hidden" onChange={handleFileChange} {...props} />
+      <input type="file" className="hidden" accept="image/*" {...props} onChange={handleFileChange} ref={ref} />
 
       <label
         htmlFor="image_url"
@@ -61,4 +69,6 @@ export default function UploadImage({ errorMessage, ...props }: IProps) {
       <FormErrorPartial message={errorMessage} />
     </>
   )
-}
+})
+
+export default UploadImage
