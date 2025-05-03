@@ -8,6 +8,8 @@ import FormTextarea from '@/components/form/FormTextArea'
 import FormInput from '@/components/form/FormInput'
 import { createCabin } from '@/services/apiCabins'
 import { Button } from '@/components/ui/Button'
+import UploadImage from '@/components/form/UploadImage'
+import { Label } from '@/components/form/partials/Label'
 
 export default function DashboardCabinCreate() {
   const {
@@ -63,12 +65,11 @@ export default function DashboardCabinCreate() {
           errorMessage={errors.discount?.message}
         />
         <FormTextarea containerClassName="col-span-2" label="Description For Website" {...register('description')} />
-        <FormInput
-          containerClassName="col-span-2"
-          label="Cabin Photo"
-          {...register('image_url')}
-          errorMessage={errors.image_url?.message}
-        />
+
+        <div className="col-span-2">
+          <Label className="pb-1.5">Cabin Image</Label>
+          <UploadImage {...register('image_url')} errorMessage={errors.image_url?.message} />
+        </div>
       </div>
 
       <div className="flex justify-end gap-2">
