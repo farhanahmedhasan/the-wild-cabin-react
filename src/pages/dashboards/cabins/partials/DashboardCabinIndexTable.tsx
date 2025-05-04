@@ -77,7 +77,7 @@ const columns: ColumnDef<ICabin>[] = [
 
       return (
         <div className="flex items-center gap-1.5">
-          <Dialog open={true}>
+          <Dialog>
             <DialogTrigger>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -87,7 +87,7 @@ const columns: ColumnDef<ICabin>[] = [
               </Tooltip>
             </DialogTrigger>
 
-            <DialogContent>
+            <DialogContent className="font-poppins">
               <DialogHeader>
                 <DialogTitle>Add new cabin</DialogTitle>
                 <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
