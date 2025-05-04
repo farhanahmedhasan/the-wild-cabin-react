@@ -90,7 +90,7 @@ const columns: ColumnDef<ICabin>[] = [
             <DialogContent className="font-poppins">
               <DialogHeader>
                 <DialogTitle>Add new cabin</DialogTitle>
-                <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
+                <DialogDescription>Add cabin informations here. Click save when you're done.</DialogDescription>
               </DialogHeader>
 
               <DashboardCabinCreate />

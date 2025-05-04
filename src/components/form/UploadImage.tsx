@@ -48,7 +48,7 @@ const UploadImage = React.forwardRef<HTMLInputElement, IProps>(({ errorMessage, 
         htmlFor="image_url"
         className={cn(
           'flex justify-center items-center h-80 p-4 border border-dashed rounded-md cursor-pointer text-center',
-          dragOver ? 'border-primary-500 bg-primary-50' : 'border-gray-400'
+          dragOver ? 'border-primary-500 bg-primary-50' : 'border-gray-400 bg-gray-50'
         )}
         onDragOver={(e) => {
           e.preventDefault()
