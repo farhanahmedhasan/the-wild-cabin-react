@@ -2,6 +2,15 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { HousePlusIcon, PencilIcon, TrashIcon } from 'lucide-react'
 import { ColumnDef } from '@tanstack/react-table'
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/Dialog'
+import DashboardCabinCreate from '@/pages/dashboards/cabins/DashboardCabinCreate'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip'
 import { customToastError, customToastSuccess } from '@/components/toast'
 import DataTableRoot from '@/components/dataTable/DataTableRoot'
@@ -68,12 +77,25 @@ const columns: ColumnDef<ICabin>[] = [
 
       return (
         <div className="flex items-center gap-1.5">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <HousePlusIcon className="h-5 text-primary-600 cursor-pointer" />
-            </TooltipTrigger>
-            <TooltipContent children="Add a cabin" />
-          </Tooltip>
+          <Dialog open={true}>
+            <DialogTrigger>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <HousePlusIcon className="h-5 text-primary-600 cursor-pointer" />
+                </TooltipTrigger>
+                <TooltipContent children="Add a cabin" />
+              </Tooltip>
+            </DialogTrigger>
+
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Add new cabin</DialogTitle>
+                <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
+              </DialogHeader>
+
+              <DashboardCabinCreate />
+            </DialogContent>
+          </Dialog>
 
           <PencilIcon className="h-5 text-gray-700 cursor-pointer" />
 
