@@ -72,9 +72,7 @@ const columns: ColumnDef<ICabin>[] = [
             <TooltipTrigger asChild>
               <HousePlusIcon className="h-5 text-primary-600 cursor-pointer" />
             </TooltipTrigger>
-            <TooltipContent>
-              <p>Add a cabin</p>
-            </TooltipContent>
+            <TooltipContent children="Add a cabin" />
           </Tooltip>
 
           <PencilIcon className="h-5 text-gray-700 cursor-pointer" />
