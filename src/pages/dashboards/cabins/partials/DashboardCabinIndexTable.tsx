@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/Dialog'
 import DashboardCabinCreate from '@/pages/dashboards/cabins/DashboardCabinCreate'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip'
+import DashboardCabinEdit from '@/pages/dashboards/cabins/DashboardCabinEdit'
 import { customToastError, customToastSuccess } from '@/components/toast'
 import DataTableRoot from '@/components/dataTable/DataTableRoot'
 import { delteCabin, getCabins } from '@/services/apiCabins'
@@ -97,7 +98,28 @@ const columns: ColumnDef<ICabin>[] = [
             </DialogContent>
           </Dialog>
 
-          <PencilIcon className="h-5 text-gray-700 cursor-pointer" />
+          <Dialog>
+            <DialogTrigger>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <PencilIcon className="h-5 text-gray-700 cursor-pointer" />
+                </TooltipTrigger>
+                <TooltipContent children="Edit this cabin" />
+              </Tooltip>
+            </DialogTrigger>
+
+            <DialogContent className="font-poppins">
+              <DialogHeader>
+                <DialogTitle>
+                  Edit cabin :
+                  <span className="text-xl ml-1 font-sono text-primary-700 font-medium">{row.original.name}</span>
+                </DialogTitle>
+                <DialogDescription>Edit cabin informations here. Click update when you're done.</DialogDescription>
+              </DialogHeader>
+
+              <DashboardCabinEdit cabin={row.original} />
+            </DialogContent>
+          </Dialog>
 
           <button disabled={isDeleting}>
             <TrashIcon className="h-5 text-red-600 cursor-pointer" onClick={() => mutate(row.original.id)} />
