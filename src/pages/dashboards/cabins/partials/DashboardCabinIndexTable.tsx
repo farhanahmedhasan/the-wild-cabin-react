@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { HousePlusIcon, PencilIcon, TrashIcon } from 'lucide-react'
+import { PencilIcon, TrashIcon } from 'lucide-react'
 import { ColumnDef } from '@tanstack/react-table'
 
 import {
@@ -10,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/Dialog'
-import DashboardCabinCreate from '@/pages/dashboards/cabins/DashboardCabinCreate'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip'
 import DashboardCabinEdit from '@/pages/dashboards/cabins/DashboardCabinEdit'
 import { customToastError, customToastSuccess } from '@/components/toast'
@@ -78,26 +77,6 @@ const columns: ColumnDef<ICabin>[] = [
 
       return (
         <div className="flex items-center gap-1.5">
-          <Dialog>
-            <DialogTrigger>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <HousePlusIcon className="h-5 text-primary-600 cursor-pointer" />
-                </TooltipTrigger>
-                <TooltipContent children="Add a cabin" />
-              </Tooltip>
-            </DialogTrigger>
-
-            <DialogContent className="font-poppins">
-              <DialogHeader>
-                <DialogTitle>Add new cabin</DialogTitle>
-                <DialogDescription>Add cabin informations here. Click save when you're done.</DialogDescription>
-              </DialogHeader>
-
-              <DashboardCabinCreate />
-            </DialogContent>
-          </Dialog>
-
           <Dialog>
             <DialogTrigger>
               <Tooltip>
