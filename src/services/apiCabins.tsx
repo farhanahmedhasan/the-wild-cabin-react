@@ -53,13 +53,28 @@ export async function editCabin(cabin: CabinSchemaType) {
   const updatedCabinData: Partial<CabinSchemaType> = { ...cabinData }
 
   if (image && typeof image !== 'string') {
+    // Get existing cabin before overwritting
+    const { data: existingCabin, error: fetchError } = await supabase
+      .from('cabins')
+      .select('image')
+      .eq('id', id)
+      .maybeSingle()
+
+    if (fetchError) throw new Error('Failed to fetch existing cabin image')
+
+    // Update image
     const imageName = `${Date.now()}-${image.name}`.replaceAll('/', '')
     const imagePath = `${supabaseCabinImagesBucket}${imageName}`
     updatedCabinData.image = imagePath
 
     const { error: storageError } = await supabase.storage.from('cabin-images').upload(imageName, image)
-
     if (storageError) throw new Error('Failed to upload image')
+
+    // Delete existing image
+    if (existingCabin?.image) {
+      const existingImageName = existingCabin.image.replace(supabaseCabinImagesBucket, '')
+      await supabase.storage.from('cabin-images').remove([existingImageName])
+    }
   }
 
   const { data, error } = await supabase.from('cabins').update(updatedCabinData).eq('id', id).select().maybeSingle()
