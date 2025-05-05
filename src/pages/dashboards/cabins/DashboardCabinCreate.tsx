@@ -75,8 +75,8 @@ export default function DashboardCabinCreate() {
           <Label className="pb-1.5">Cabin Image</Label>
           <UploadImage
             key={uploadKey}
-            name="image_url"
-            id="image_url"
+            name="image"
+            id="image"
             errorMessage={typeof errors.image?.message === 'string' ? errors.image.message : undefined}
             setValue={setValue}
           />

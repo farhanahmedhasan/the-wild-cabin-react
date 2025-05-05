@@ -47,7 +47,7 @@ const UploadImage = React.forwardRef<HTMLInputElement, IProps>(
         <input type="file" className="hidden" accept="image/*" {...props} onChange={handleFileChange} ref={ref} />
 
         <label
-          htmlFor="image_url"
+          htmlFor="image"
           className={cn(
             'flex justify-center items-center h-80 p-4 border border-dashed rounded-md cursor-pointer text-center',
             dragOver ? 'border-primary-500 bg-primary-50' : 'border-gray-400 bg-gray-50'

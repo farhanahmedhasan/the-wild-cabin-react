@@ -89,14 +89,7 @@ export default function DashboardCabinEdit(props: IProps) {
       </div>
 
       <div className="flex justify-end gap-2">
-        <Button
-          size="sm"
-          variant="secondary"
-          type="reset"
-          onClick={() => {
-            setValue('image', undefined)
-          }}
-        >
+        <Button size="sm" variant="secondary" type="reset">
           Reset
         </Button>
         <Button size="sm" disabled={isCreating}>

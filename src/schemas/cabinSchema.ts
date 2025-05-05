@@ -23,16 +23,21 @@ export const cabinSchema = z
     // Optional fields
     description: z.string().nullable(),
     image: z
-      .any()
+      .union([
+        z.string(),
+        z
+          .any()
+          .refine((file) => {
+            if (!file || file.length === 0) return true
+            return file?.[0]?.size <= MAX_FILE_SIZE
+          }, `Max file size is ${MAX_FILE_SIZE / 1024 / 1024}MB`)
+          .refine((file) => {
+            if (!file || file.length === 0) return true
+            return ACCEPTED_IMAGE_TYPES.includes(file?.[0]?.type)
+          }, 'Only .jpg, .jpeg, and .png formats are supported.'),
+        z.undefined()
+      ])
       .optional()
-      .refine((file) => {
-        if (!file || file.length === 0) return true
-        return file?.[0]?.size <= MAX_FILE_SIZE
-      })
-      .refine((file) => {
-        if (!file || file.length === 0) return true
-        return ACCEPTED_IMAGE_TYPES.includes(file?.[0]?.type)
-      }, 'Only .jpg, .jpeg, and .png formats are supported.')
   })
   .refine((data) => data.discount < data.regular_price, {
     message: `Discount can't be more or equal to regular price`,
