@@ -24,6 +24,7 @@ export async function createCabin(cabin: CabinSchemaType) {
     .from('cabins')
     .insert([{ ...cabin, image: cabin.image?.name ? imagePath : null }])
     .select()
+    .single()
 
   if (error || !data || data.length === 0) {
     console.log(error)
@@ -36,7 +37,7 @@ export async function createCabin(cabin: CabinSchemaType) {
 
     // Delete the cabin if there was an error uploading the image
     if (storageError) {
-      await supabase.from('cabins').delete().eq('id', data[0].id)
+      await supabase.from('cabins').delete().eq('id', data.id)
       console.log(storageError)
       throw new Error('Cabin image could not be uploaded and cabin was not created')
     }
@@ -46,9 +47,8 @@ export async function createCabin(cabin: CabinSchemaType) {
 }
 
 export async function editCabin(cabin: CabinSchemaType) {
-  console.log(cabin)
-
-  const { data, error } = await supabase.from('cabins').update(cabin).eq('id', cabin.id).select()
+  const { data, error } = await supabase.from('cabins').update(cabin).eq('id', cabin.id).select().single()
+  console.log(data)
 
   if (error) {
     console.log(error)
