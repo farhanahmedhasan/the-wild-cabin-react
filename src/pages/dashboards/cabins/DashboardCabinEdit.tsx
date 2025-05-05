@@ -22,6 +22,7 @@ export default function DashboardCabinEdit(props: IProps) {
     register,
     handleSubmit,
     setValue,
+    watch,
     reset,
     formState: { errors }
   } = useForm<CabinSchemaType>({
@@ -92,7 +93,7 @@ export default function DashboardCabinEdit(props: IProps) {
         <Button
           size="sm"
           variant="secondary"
-          disabled={!imageUrl}
+          disabled={!watch('image')}
           type="button"
           onClick={() => {
             setImageUrl('')
