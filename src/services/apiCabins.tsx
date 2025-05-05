@@ -45,7 +45,11 @@ export async function createCabin(cabin: CabinSchemaType) {
   return data
 }
 
-export async function delteCabin(cabinId: number) {
+export async function delteCabin(cabinId: number, cabinImageUrl: string) {
+  const imageName = cabinImageUrl?.substring(cabinImageUrl.lastIndexOf('//') + 2)
+
+  await supabase.storage.from('cabin-images').remove([imageName])
+
   const { data, error } = await supabase.from('cabins').delete().eq('id', cabinId)
   if (error) {
     console.error(error)

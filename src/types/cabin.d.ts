@@ -1,7 +1,7 @@
 export interface ICabin {
   id: number
   name: string
-  image_url: string
+  image: string
   description: string
   max_capacity: number
   regular_price: number

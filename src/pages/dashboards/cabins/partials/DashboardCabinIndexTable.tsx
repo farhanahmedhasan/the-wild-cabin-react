@@ -65,7 +65,7 @@ const columns: ColumnDef<ICabin>[] = [
       const queryClient = useQueryClient()
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { isPending: isDeleting, mutate } = useMutation({
-        mutationFn: delteCabin,
+        mutationFn: ({ id, image }: { id: number; image: string }) => delteCabin(id, image),
         onSuccess: () => {
           queryClient.invalidateQueries({
             queryKey: ['cabins']
@@ -101,7 +101,10 @@ const columns: ColumnDef<ICabin>[] = [
           </Dialog>
 
           <button disabled={isDeleting}>
-            <TrashIcon className="h-5 text-red-600 cursor-pointer" onClick={() => mutate(row.original.id)} />
+            <TrashIcon
+              className="h-5 text-red-600 cursor-pointer"
+              onClick={() => mutate({ id: row.original.id, image: row.original.image })}
+            />
           </button>
         </div>
       )
