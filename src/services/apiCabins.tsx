@@ -47,12 +47,25 @@ export async function createCabin(cabin: CabinSchemaType) {
 }
 
 export async function editCabin(cabin: CabinSchemaType) {
-  if (!cabin.id) {
-    throw new Error('No id found')
+  console.log(cabin)
+  if (!cabin.id) throw new Error('No id found')
+
+  const { id, image, ...cabinData } = cabin
+  const updatedCabinData: Partial<CabinSchemaType> = { ...cabinData }
+
+  if (image && typeof image !== 'string') {
+    const imageName = `${Date.now()}-${image.name}`.replaceAll('/', '')
+    const imagePath = `${supabaseCabinImagesBucket}${imageName}`
+    updatedCabinData.image = imagePath
+
+    const { error: storageError } = await supabase.storage.from('cabin-images').upload(imageName, image)
+
+    if (storageError) {
+      throw new Error('Failed to upload image')
+    }
   }
 
-  const { data, error } = await supabase.from('cabins').update(cabin).eq('id', cabin.id).select().maybeSingle()
-  console.log(data)
+  const { data, error } = await supabase.from('cabins').update(updatedCabinData).eq('id', id).select().maybeSingle()
 
   if (error) {
     console.log(error)

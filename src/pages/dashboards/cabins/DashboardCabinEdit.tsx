@@ -47,8 +47,8 @@ export default function DashboardCabinEdit(props: IProps) {
   })
 
   function onSubmit(data: CabinSchemaType) {
-    console.log(data)
-    mutate(data)
+    const image = data.image?.[0] ?? null
+    mutate({ ...data, image })
   }
 
   return (
