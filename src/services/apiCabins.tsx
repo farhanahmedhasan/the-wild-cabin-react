@@ -47,12 +47,16 @@ export async function createCabin(cabin: CabinSchemaType) {
 }
 
 export async function editCabin(cabin: CabinSchemaType) {
-  const { data, error } = await supabase.from('cabins').update(cabin).eq('id', cabin.id).select().single()
+  if (!cabin.id) {
+    throw new Error('No id found')
+  }
+
+  const { data, error } = await supabase.from('cabins').update(cabin).eq('id', cabin.id).select().maybeSingle()
   console.log(data)
 
   if (error) {
     console.log(error)
-    throw new Error("We couldn't update the image.")
+    throw new Error("We couldn't update the cabin.")
   }
 
   return data
