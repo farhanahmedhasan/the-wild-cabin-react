@@ -17,6 +17,7 @@ interface IProps {
 
 export default function DashboardCabinEdit(props: IProps) {
   const [uploadKey, setUploadKey] = useState(0)
+  const [imageUrl, setImageUrl] = useState(props.cabin.image ?? '')
   const {
     register,
     handleSubmit,
@@ -82,14 +83,24 @@ export default function DashboardCabinEdit(props: IProps) {
             id="image"
             errorMessage={typeof errors.image?.message === 'string' ? errors.image.message : undefined}
             setValue={setValue}
-            imageUrl={props.cabin.image}
+            imageUrl={imageUrl}
           />
         </div>
       </div>
 
       <div className="flex justify-end gap-2">
-        <Button size="sm" variant="secondary" type="reset">
-          Reset
+        <Button
+          size="sm"
+          variant="secondary"
+          disabled={!imageUrl}
+          type="button"
+          onClick={() => {
+            setImageUrl('')
+            setUploadKey((prev) => prev + 1)
+            setValue('image', null)
+          }}
+        >
+          Remove Image
         </Button>
         <Button size="sm" disabled={isCreating}>
           Update Cabin
