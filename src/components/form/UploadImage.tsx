@@ -60,7 +60,7 @@ const UploadImage = React.forwardRef<HTMLInputElement, IProps>(
           onDrop={handleDrop}
         >
           {previewUrl || imageUrl ? (
-            <img className="h-full w-full object-cover rounded-md" src={imageUrl || previewUrl} />
+            <img className="h-full w-full object-cover rounded-md" src={previewUrl ? previewUrl : imageUrl} />
           ) : (
             <div className="flex flex-col gap-2 items-center">
               <ImagePlusIcon className="text-primary-500" size="48px" />

@@ -20,7 +20,6 @@ export default function DashboardCabinEdit(props: IProps) {
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
     reset,
     formState: { errors }
@@ -83,7 +82,7 @@ export default function DashboardCabinEdit(props: IProps) {
             id="image"
             errorMessage={typeof errors.image?.message === 'string' ? errors.image.message : undefined}
             setValue={setValue}
-            imageUrl={watch('image')}
+            imageUrl={props.cabin.image}
           />
         </div>
       </div>
