@@ -20,6 +20,7 @@ export default function DashboardCabinEdit(props: IProps) {
   const {
     register,
     handleSubmit,
+    watch,
     setValue,
     reset,
     formState: { errors }
@@ -78,16 +79,24 @@ export default function DashboardCabinEdit(props: IProps) {
           <Label className="pb-1.5">Cabin Image</Label>
           <UploadImage
             key={uploadKey}
-            name="image_url"
-            id="image_url"
+            name="image"
+            id="image"
             errorMessage={typeof errors.image?.message === 'string' ? errors.image.message : undefined}
             setValue={setValue}
+            imageUrl={watch('image')}
           />
         </div>
       </div>
 
       <div className="flex justify-end gap-2">
-        <Button size="sm" variant="secondary" type="reset">
+        <Button
+          size="sm"
+          variant="secondary"
+          type="reset"
+          onClick={() => {
+            setValue('image', undefined)
+          }}
+        >
           Reset
         </Button>
         <Button size="sm" disabled={isCreating}>
