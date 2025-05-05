@@ -5,6 +5,7 @@ const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png']
 
 export const cabinSchema = z
   .object({
+    id: z.number().optional(),
     name: z.string().min(1, 'Cabin name is required.'),
     max_capacity: z.coerce.number().min(1, 'Maximun guest number is required.'),
 

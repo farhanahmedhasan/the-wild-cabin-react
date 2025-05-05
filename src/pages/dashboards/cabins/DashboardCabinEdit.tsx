@@ -9,6 +9,7 @@ import { Label } from '@/components/form/partials/Label'
 import UploadImage from '@/components/form/UploadImage'
 import { zodResolver } from '@hookform/resolvers/zod'
 import FormInput from '@/components/form/FormInput'
+import { editCabin } from '@/services/apiCabins'
 import { Button } from '@/components/ui/Button'
 
 interface IProps {
@@ -31,8 +32,8 @@ export default function DashboardCabinEdit(props: IProps) {
   })
 
   const queryClient = useQueryClient()
-  const { isPending: isCreating } = useMutation({
-    // mutationFn: editCabin,
+  const { isPending: isCreating, mutate } = useMutation({
+    mutationFn: editCabin,
     onSuccess: () => {
       customToastSuccess('Cabin has been updated successfully.')
       reset()
@@ -47,6 +48,7 @@ export default function DashboardCabinEdit(props: IProps) {
 
   function onSubmit(data: CabinSchemaType) {
     console.log(data)
+    mutate(data)
   }
 
   return (
