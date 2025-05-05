@@ -20,7 +20,7 @@ export default function DashboardCabins() {
       </div>
 
       <Dialog>
-        <DialogTrigger className="mb-10" asChild>
+        <DialogTrigger className="mb-8" asChild>
           <Button size="sm">Create a cabin</Button>
         </DialogTrigger>
 
