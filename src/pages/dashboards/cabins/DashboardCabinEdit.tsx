@@ -16,6 +16,9 @@ interface IProps {
   cabin: CabinSchemaType
 }
 
+// TODO: when update cabin, we want our modal to stay open and reflect defaultValues with updated data
+// TODO: make sure user can't update(send api call) if no data or image changes. do shallow comparison
+
 export default function DashboardCabinEdit(props: IProps) {
   const [uploadKey, setUploadKey] = useState(0)
   const [imageUrl, setImageUrl] = useState(props.cabin.image ?? '')
