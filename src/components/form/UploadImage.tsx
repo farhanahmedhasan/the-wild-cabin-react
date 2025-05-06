@@ -1,9 +1,10 @@
 import React, { InputHTMLAttributes, useEffect, useState } from 'react'
 import { UseFormSetValue } from 'react-hook-form'
-import { ImagePlusIcon } from 'lucide-react'
+import { ImagePlusIcon, X } from 'lucide-react'
 
 import FormErrorPartial from '@/components/form/partials/FormError'
 import { CabinSchemaType } from '@/schemas/cabinSchema'
+import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -43,7 +44,7 @@ const UploadImage = React.forwardRef<HTMLInputElement, IProps>(
     }, [previewUrl])
 
     return (
-      <>
+      <div className="relative">
         <input type="file" className="hidden" accept="image/*" {...props} onChange={handleFileChange} ref={ref} />
 
         <label
@@ -62,14 +63,30 @@ const UploadImage = React.forwardRef<HTMLInputElement, IProps>(
           {previewUrl || imageUrl ? (
             <img className="h-full w-full object-cover rounded-md" src={previewUrl ? previewUrl : imageUrl} />
           ) : (
-            <div className="flex flex-col gap-2 items-center">
+            <div className="relative flex flex-col gap-2 items-center">
               <ImagePlusIcon className="text-primary-500" size="48px" />
               <p className="text-sm">Click or drag an image to upload</p>
             </div>
           )}
         </label>
         <FormErrorPartial message={errorMessage} />
-      </>
+
+        {(previewUrl || imageUrl) && (
+          <Button
+            variant="secondary"
+            type="button"
+            size="sm"
+            className="absolute right-6 top-6"
+            onClick={(e) => {
+              e.stopPropagation()
+              setPreviewUrl(undefined)
+              setValue('image', null)
+            }}
+          >
+            <X className="h-4 w-4 text-primary-600" strokeWidth="4" />
+          </Button>
+        )}
+      </div>
     )
   }
 )

@@ -30,6 +30,7 @@ export default function DashboardCabinCreate() {
     <form className="font-poppins space-y-5" onSubmit={handleSubmit(onSubmit)}>
       <div className="grid grid-cols-2 gap-4">
         <FormInput label="Cabin Name" {...register('name')} errorMessage={errors.name?.message} required />
+
         <FormInput
           label="Maximum Capacity"
           type="number"
@@ -37,6 +38,7 @@ export default function DashboardCabinCreate() {
           errorMessage={errors.max_capacity?.message}
           required
         />
+
         <FormInput
           label="Regular Price"
           type="text"
@@ -44,6 +46,7 @@ export default function DashboardCabinCreate() {
           required
           errorMessage={errors.regular_price?.message}
         />
+
         <FormInput
           label="Discount"
           type="text"
@@ -51,6 +54,7 @@ export default function DashboardCabinCreate() {
           {...register('discount')}
           errorMessage={errors.discount?.message}
         />
+
         <FormTextarea containerClassName="col-span-2" label="Description For Website" {...register('description')} />
 
         <div className="col-span-2">
