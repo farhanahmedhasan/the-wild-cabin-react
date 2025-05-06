@@ -1,6 +1,7 @@
-import { customToastError, customToastSuccess } from '@/components/toast'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { delteCabin } from '@/services/apiCabins'
+
+import { customToastError, customToastSuccess } from '@/components/toast'
 
 export default function useDeleteCabin() {
   const queryClient = useQueryClient()

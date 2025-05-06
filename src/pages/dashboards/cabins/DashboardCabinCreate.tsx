@@ -1,47 +1,29 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
 
-import { customToastError, customToastSuccess } from '@/components/toast'
+import useCreateCabin from '@/pages/dashboards/cabins/partials/useCreateCabin'
 import { cabinSchema, CabinSchemaType } from '@/schemas/cabinSchema'
 import FormTextarea from '@/components/form/FormTextArea'
 import { Label } from '@/components/form/partials/Label'
 import UploadImage from '@/components/form/UploadImage'
 import FormInput from '@/components/form/FormInput'
-import { createCabin } from '@/services/apiCabins'
 import { Button } from '@/components/ui/Button'
 
 export default function DashboardCabinCreate() {
-  const [uploadKey, setUploadKey] = useState(0)
   const {
     register,
     handleSubmit,
     setValue,
-    reset,
     formState: { errors }
   } = useForm<CabinSchemaType>({
     resolver: zodResolver(cabinSchema)
   })
 
-  const queryClient = useQueryClient()
-  const { isPending: isCreating, mutate } = useMutation({
-    mutationFn: createCabin,
-    onSuccess: () => {
-      customToastSuccess('Cabin has been created successfully.')
-      reset()
-      setUploadKey((prev) => prev + 1)
-      queryClient.invalidateQueries({
-        queryKey: ['cabins']
-      })
-    },
-
-    onError: (err) => customToastError(err.message)
-  })
+  const { isCreating, createCabinMutate } = useCreateCabin()
 
   function onSubmit(data: CabinSchemaType) {
-    const image = data.image?.[0]
-    mutate({ ...data, image })
+    const image = data.image?.[0] ?? null
+    createCabinMutate({ ...data, image })
   }
 
   return (
@@ -74,7 +56,6 @@ export default function DashboardCabinCreate() {
         <div className="col-span-2">
           <Label className="pb-1.5">Cabin Image</Label>
           <UploadImage
-            key={uploadKey}
             name="image"
             id="image"
             errorMessage={typeof errors.image?.message === 'string' ? errors.image.message : undefined}
