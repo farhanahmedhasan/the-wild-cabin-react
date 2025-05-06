@@ -1,6 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { PencilIcon, TrashIcon } from 'lucide-react'
 import { ColumnDef } from '@tanstack/react-table'
+import { useQuery } from '@tanstack/react-query'
 
 import {
   Dialog,
@@ -12,9 +12,10 @@ import {
 } from '@/components/ui/Dialog'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip'
 import DashboardCabinEdit from '@/pages/dashboards/cabins/DashboardCabinEdit'
-import { customToastError, customToastSuccess } from '@/components/toast'
+
+import useDeleteCabin from '@/pages/dashboards/cabins/partials/useDeleteCabin'
 import DataTableRoot from '@/components/dataTable/DataTableRoot'
-import { delteCabin, getCabins } from '@/services/apiCabins'
+import { getCabins } from '@/services/apiCabins'
 import Spinner from '@/components/ui/Spinner'
 import { formatCurrency } from '@/lib/utils'
 import { ICabin } from '@/types/cabin'
@@ -60,20 +61,9 @@ const columns: ColumnDef<ICabin>[] = [
   {
     header: 'Actions',
     cell: ({ row }) => {
-      // TODO: Fix the eslint issue
+      // TODO: can't use hooks here ts error
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const queryClient = useQueryClient()
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { isPending: isDeleting, mutate } = useMutation({
-        mutationFn: ({ id, image }: { id: number; image: string }) => delteCabin(id, image),
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['cabins']
-          })
-          customToastSuccess('Cabin has been deleted successfully.')
-        },
-        onError: (err) => customToastError(err.message)
-      })
+      const { isDeleting, deleteCabinMutate } = useDeleteCabin()
 
       return (
         <div className="flex items-center gap-1.5">
@@ -103,7 +93,7 @@ const columns: ColumnDef<ICabin>[] = [
           <button disabled={isDeleting}>
             <TrashIcon
               className="h-5 text-red-600 cursor-pointer"
-              onClick={() => mutate({ id: row.original.id, image: row.original.image })}
+              onClick={() => deleteCabinMutate({ id: row.original.id, image: row.original.image })}
             />
           </button>
         </div>
