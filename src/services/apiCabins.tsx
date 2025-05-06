@@ -77,7 +77,12 @@ export async function editCabin(cabin: CabinSchemaType) {
     }
   }
 
-  const { data, error } = await supabase.from('cabins').update(updatedCabinData).eq('id', id).select().maybeSingle()
+  const { data, error } = await supabase
+    .from('cabins')
+    .update({ image: image, ...updatedCabinData })
+    .eq('id', id)
+    .select()
+    .maybeSingle()
 
   if (error) throw new Error("We couldn't update the cabin.")
 

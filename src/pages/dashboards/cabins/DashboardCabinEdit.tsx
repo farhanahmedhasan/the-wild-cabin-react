@@ -1,15 +1,13 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 
-import { customToastError, customToastSuccess } from '@/components/toast'
+import useCabinUpdate from '@/pages/dashboards/cabins/partials/useUpdateCabin'
 import { cabinSchema, CabinSchemaType } from '@/schemas/cabinSchema'
 import FormTextarea from '@/components/form/FormTextArea'
 import { Label } from '@/components/form/partials/Label'
 import UploadImage from '@/components/form/UploadImage'
 import { zodResolver } from '@hookform/resolvers/zod'
 import FormInput from '@/components/form/FormInput'
-import { editCabin } from '@/services/apiCabins'
 import { Button } from '@/components/ui/Button'
 
 interface IProps {
@@ -20,38 +18,28 @@ interface IProps {
 // TODO: make sure user can't update(send api call) if no data or image changes. do shallow comparison
 
 export default function DashboardCabinEdit(props: IProps) {
-  const [uploadKey, setUploadKey] = useState(0)
-  const [imageUrl, setImageUrl] = useState(props.cabin.image ?? '')
+  const [imageUrl, setImageUrl] = useState<string>(props.cabin.image)
   const {
     register,
     handleSubmit,
     setValue,
-    watch,
-    reset,
     formState: { errors }
   } = useForm<CabinSchemaType>({
     resolver: zodResolver(cabinSchema),
     defaultValues: props.cabin
   })
 
-  const queryClient = useQueryClient()
-  const { isPending: isCreating, mutate } = useMutation({
-    mutationFn: editCabin,
-    onSuccess: () => {
-      customToastSuccess('Cabin has been updated successfully.')
-      reset()
-      setUploadKey((prev) => prev + 1)
-      queryClient.invalidateQueries({
-        queryKey: ['cabins']
-      })
-    },
-
-    onError: (err) => customToastError(err.message)
-  })
+  const { isUpdating, updateCabinMutate } = useCabinUpdate()
 
   function onSubmit(data: CabinSchemaType) {
-    const image = data.image?.[0] ?? null
-    mutate({ ...data, image })
+    const { image, ...formattedData } = data
+
+    let newImage = image
+    if (typeof image !== 'string') {
+      newImage = data.image?.[0] ?? null
+    }
+
+    updateCabinMutate({ ...formattedData, image: newImage })
   }
 
   return (
@@ -84,31 +72,21 @@ export default function DashboardCabinEdit(props: IProps) {
         <div className="col-span-2">
           <Label className="pb-1.5">Cabin Image</Label>
           <UploadImage
-            key={uploadKey}
             name="image"
             id="image"
             errorMessage={typeof errors.image?.message === 'string' ? errors.image.message : undefined}
             setValue={setValue}
             imageUrl={imageUrl}
+            onRemoveImage={() => setImageUrl('')}
           />
         </div>
       </div>
 
       <div className="flex justify-end gap-2">
-        <Button
-          size="sm"
-          variant="secondary"
-          disabled={!watch('image')}
-          type="button"
-          onClick={() => {
-            setImageUrl('')
-            setUploadKey((prev) => prev + 1)
-            setValue('image', null)
-          }}
-        >
-          Remove Image
+        <Button size="sm" variant="secondary" type="reset">
+          Reset
         </Button>
-        <Button size="sm" disabled={isCreating}>
+        <Button size="sm" disabled={isUpdating}>
           Update Cabin
         </Button>
       </div>

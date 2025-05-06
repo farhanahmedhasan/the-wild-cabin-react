@@ -11,10 +11,11 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string
   setValue: UseFormSetValue<CabinSchemaType>
   imageUrl?: string | undefined
+  onRemoveImage?: () => void
 }
 
 const UploadImage = React.forwardRef<HTMLInputElement, IProps>(
-  ({ errorMessage, setValue, imageUrl, ...props }, ref) => {
+  ({ errorMessage, setValue, imageUrl, onRemoveImage, ...props }, ref) => {
     const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined)
     const [dragOver, setDragOver] = useState<boolean>(false)
 
@@ -35,6 +36,12 @@ const UploadImage = React.forwardRef<HTMLInputElement, IProps>(
     function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
       const file = e.target.files?.[0]
       if (file) handleFile(file)
+    }
+
+    function handleRemoveImage() {
+      setPreviewUrl(undefined)
+      setValue('image', null)
+      if (typeof onRemoveImage === 'function') onRemoveImage()
     }
 
     useEffect(() => {
@@ -77,11 +84,7 @@ const UploadImage = React.forwardRef<HTMLInputElement, IProps>(
             type="button"
             size="sm"
             className="absolute right-6 top-6"
-            onClick={(e) => {
-              e.stopPropagation()
-              setPreviewUrl(undefined)
-              setValue('image', null)
-            }}
+            onClick={handleRemoveImage}
           >
             <X className="h-4 w-4 text-primary-600" strokeWidth="4" />
           </Button>
