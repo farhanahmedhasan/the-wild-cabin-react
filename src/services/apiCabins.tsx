@@ -1,6 +1,8 @@
 import supabase, { supabaseCabinImagesBucket } from '@/services/supabase'
 import { CabinSchemaType } from '@/schemas/cabinSchema'
 
+const bucket = 'cabin-images'
+
 export async function getCabins() {
   try {
     const { data: cabins, error } = await supabase.from('cabins').select('*')
@@ -16,7 +18,6 @@ export async function getCabins() {
 }
 
 export async function createCabin(cabin: CabinSchemaType) {
-  const bucket = 'cabin-images'
   let imageName: string | null = null
   let imagePath: string | null = null
 
@@ -29,23 +30,10 @@ export async function createCabin(cabin: CabinSchemaType) {
   // Duplicate the image (string) - clone it on storage
   if (typeof cabin.image === 'string') {
     const currentImageName = cabin.image.split('/').pop()
-
-    const { data: fileData, error: downloadError } = await supabase.storage.from(bucket).download(currentImageName!)
-
     imageName = `copy-${Date.now()}-${currentImageName}`
     imagePath = `${supabaseCabinImagesBucket}${imageName}`
 
-    if (!fileData || downloadError) {
-      console.error(downloadError)
-      throw new Error('Failed to download image for duplication')
-    }
-
-    const { error: uploadError } = await supabase.storage.from(bucket).upload(imageName, fileData)
-
-    if (uploadError) {
-      console.error(uploadError)
-      throw new Error('Failed to upload duplicated image')
-    }
+    await duplicateAndUploadImage(currentImageName!, imageName)
   }
 
   // Create cabin
@@ -96,13 +84,13 @@ export async function editCabin(cabin: CabinSchemaType) {
     const imagePath = `${supabaseCabinImagesBucket}${imageName}`
     updatedCabinData.image = imagePath
 
-    const { error: storageError } = await supabase.storage.from('cabin-images').upload(imageName, image)
+    const { error: storageError } = await supabase.storage.from(bucket).upload(imageName, image)
     if (storageError) throw new Error('Failed to upload image')
 
     // Delete existing image
     if (existingCabin?.image) {
       const existingImageName = existingCabin.image.replace(supabaseCabinImagesBucket, '')
-      await supabase.storage.from('cabin-images').remove([existingImageName])
+      await supabase.storage.from(bucket).remove([existingImageName])
     }
   }
 
@@ -121,7 +109,7 @@ export async function editCabin(cabin: CabinSchemaType) {
 export async function delteCabin(cabinId: number, cabinImageUrl: string) {
   const imageName = cabinImageUrl?.substring(cabinImageUrl.lastIndexOf('//') + 2)
 
-  await supabase.storage.from('cabin-images').remove([imageName])
+  await supabase.storage.from(bucket).remove([imageName])
 
   const { data, error } = await supabase.from('cabins').delete().eq('id', cabinId)
   if (error) {
@@ -129,4 +117,22 @@ export async function delteCabin(cabinId: number, cabinImageUrl: string) {
     throw new Error("we couldn't delete the cabin.")
   }
   return data
+}
+
+async function duplicateAndUploadImage(currentImageName: string, duplicateImageName: string) {
+  const { data: fileData, error: downloadError } = await supabase.storage.from(bucket).download(currentImageName)
+
+  if (!fileData || downloadError) {
+    console.error(downloadError)
+    throw new Error('Failed to download image for duplication')
+  }
+
+  const { error: uploadError } = await supabase.storage.from(bucket).upload(duplicateImageName, fileData)
+
+  if (uploadError) {
+    console.error(uploadError)
+    throw new Error('Failed to upload duplicated image')
+  }
+
+  return fileData
 }
