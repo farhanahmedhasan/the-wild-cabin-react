@@ -16,13 +16,20 @@ export async function getCabins() {
 }
 
 export async function createCabin(cabin: CabinSchemaType) {
-  const imageName = `${Date.now()}-${cabin.image?.name}`.replaceAll('/', '')
-  const imagePath = `${supabaseCabinImagesBucket}${imageName}`
+  let imagePath: string | null = null
+  let imageName: string | null = null
+
+  if (cabin.image && typeof cabin.image !== 'string') {
+    imageName = `${Date.now()}-${cabin.image?.name}`.replaceAll('/', '')
+    imagePath = `${supabaseCabinImagesBucket}${imageName}`
+  }
+
+  if (typeof cabin.image === 'string') imagePath = cabin.image
 
   // Create cabin
   const { data, error } = await supabase
     .from('cabins')
-    .insert([{ ...cabin, image: cabin.image?.name ? imagePath : null }])
+    .insert([{ ...cabin, image: imagePath }])
     .select()
     .single()
 
@@ -32,8 +39,8 @@ export async function createCabin(cabin: CabinSchemaType) {
   }
 
   // Upload image
-  if (cabin.image) {
-    const { error: storageError } = await supabase.storage.from('cabin-images').upload(imageName, cabin.image)
+  if (cabin.image && typeof cabin.image !== 'string') {
+    const { error: storageError } = await supabase.storage.from('cabin-images').upload(imageName!, cabin.image)
 
     // Delete the cabin if there was an error uploading the image
     if (storageError) {

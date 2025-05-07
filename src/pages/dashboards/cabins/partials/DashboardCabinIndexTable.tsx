@@ -1,4 +1,4 @@
-import { PencilIcon, TrashIcon } from 'lucide-react'
+import { CopyIcon, PencilIcon, TrashIcon } from 'lucide-react'
 import { ColumnDef } from '@tanstack/react-table'
 
 import {
@@ -18,6 +18,8 @@ import DataTableRoot from '@/components/dataTable/DataTableRoot'
 import Spinner from '@/components/ui/Spinner'
 import { formatCurrency } from '@/lib/utils'
 import { ICabin } from '@/types/cabin'
+import { CabinSchemaType } from '@/schemas/cabinSchema'
+import useCreateCabin from '../hooks/useCreateCabin'
 
 const columns: ColumnDef<ICabin>[] = [
   {
@@ -63,9 +65,24 @@ const columns: ColumnDef<ICabin>[] = [
       // TODO: can't use hooks here ts error
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { isDeleting, deleteCabinMutate } = useDeleteCabin()
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { isCreating, createCabinMutate } = useCreateCabin()
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      function handleDuplicate({ id, ...cabin }: CabinSchemaType) {
+        const newCabinDuplicate = {
+          ...cabin,
+          name: `Copy of ${cabin.name}`
+        }
+        createCabinMutate(newCabinDuplicate)
+      }
 
       return (
         <div className="flex items-center gap-1.5">
+          <button disabled={isCreating} onClick={() => handleDuplicate(row.original)}>
+            <CopyIcon className="h-5 cursor-pointer" />
+          </button>
+
           <Dialog>
             <DialogTrigger>
               <Tooltip>
