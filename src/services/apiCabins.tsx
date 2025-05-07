@@ -16,10 +16,38 @@ export async function getCabins() {
 }
 
 export async function createCabin(cabin: CabinSchemaType) {
-  const isNewImage = cabin.image && typeof cabin.image !== 'string'
+  const bucket = 'cabin-images'
+  let imageName: string | null = null
+  let imagePath: string | null = null
 
-  const imageName = isNewImage ? `${Date.now()}-${cabin.image?.name}`.replaceAll('/', '') : null
-  const imagePath = isNewImage ? `${supabaseCabinImagesBucket}${imageName}` : cabin.image ?? null
+  const isNewImage = cabin.image && typeof cabin.image !== 'string'
+  if (isNewImage) {
+    imageName = `${Date.now()}-${cabin.image?.name}`.replaceAll('/', '')
+    imagePath = `${supabaseCabinImagesBucket}${imageName}`
+  }
+
+  // Duplicate the image (string) - clone it on storage
+  if (typeof cabin.image === 'string') {
+    const existingImagePath = cabin.image
+    const existingImageName = existingImagePath.split('/').pop()
+
+    const { data: fileData, error: downloadError } = await supabase.storage.from(bucket).download(existingImageName!)
+
+    imageName = `${Date.now()}-copy-${existingImageName}`
+    imagePath = `${supabaseCabinImagesBucket}${imageName}`
+
+    if (!fileData || downloadError) {
+      console.error(downloadError)
+      throw new Error('Failed to download image for duplication')
+    }
+
+    const { error: uploadError } = await supabase.storage.from(bucket).upload(imageName, fileData)
+
+    if (uploadError) {
+      console.error(uploadError)
+      throw new Error('Failed to upload duplicated image')
+    }
+  }
 
   // Create cabin
   const { data, error } = await supabase
@@ -35,7 +63,7 @@ export async function createCabin(cabin: CabinSchemaType) {
 
   // Upload image
   if (isNewImage) {
-    const { error: storageError } = await supabase.storage.from('cabin-images').upload(imageName!, cabin.image)
+    const { error: storageError } = await supabase.storage.from(bucket).upload(imageName!, cabin.image)
 
     // Delete the cabin if there was an error uploading the image
     if (storageError) {
