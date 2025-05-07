@@ -13,7 +13,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip'
 import DashboardCabinEdit from '@/pages/dashboards/cabins/DashboardCabinEdit'
 
-import useDeleteCabin from '@/pages/dashboards/cabins/partials/useDeleteCabin'
+import useDeleteCabin from '@/pages/dashboards/cabins/hooks/useDeleteCabin'
 import DataTableRoot from '@/components/dataTable/DataTableRoot'
 import { getCabins } from '@/services/apiCabins'
 import Spinner from '@/components/ui/Spinner'

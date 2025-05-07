@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import useCreateCabin from '@/pages/dashboards/cabins/partials/useCreateCabin'
+import useCreateCabin from '@/pages/dashboards/cabins/hooks/useCreateCabin'
 import { cabinSchema, CabinSchemaType } from '@/schemas/cabinSchema'
 import FormTextarea from '@/components/form/FormTextArea'
 import { Label } from '@/components/form/partials/Label'
