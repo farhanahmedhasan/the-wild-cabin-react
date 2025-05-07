@@ -28,12 +28,11 @@ export async function createCabin(cabin: CabinSchemaType) {
 
   // Duplicate the image (string) - clone it on storage
   if (typeof cabin.image === 'string') {
-    const existingImagePath = cabin.image
-    const existingImageName = existingImagePath.split('/').pop()
+    const currentImageName = cabin.image.split('/').pop()
 
-    const { data: fileData, error: downloadError } = await supabase.storage.from(bucket).download(existingImageName!)
+    const { data: fileData, error: downloadError } = await supabase.storage.from(bucket).download(currentImageName!)
 
-    imageName = `${Date.now()}-copy-${existingImageName}`
+    imageName = `copy-${Date.now()}-${currentImageName}`
     imagePath = `${supabaseCabinImagesBucket}${imageName}`
 
     if (!fileData || downloadError) {
