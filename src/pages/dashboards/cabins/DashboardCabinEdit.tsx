@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 
-import useCabinUpdate from '@/pages/dashboards/cabins/partials/useUpdateCabin'
+import useCabinUpdate from '@/pages/dashboards/cabins/hooks/useUpdateCabin'
 import { cabinSchema, CabinSchemaType } from '@/schemas/cabinSchema'
 import FormTextarea from '@/components/form/FormTextArea'
 import { Label } from '@/components/form/partials/Label'
