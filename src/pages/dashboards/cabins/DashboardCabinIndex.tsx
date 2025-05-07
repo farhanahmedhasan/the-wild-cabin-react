@@ -6,7 +6,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/Dialog'
-import DashboardCabinsTable from '@/pages/dashboards/cabins/partials/DashboardCabinIndexTable'
+import DashboardCabinsIndexTable from '@/pages/dashboards/cabins/partials/DashboardCabinIndexTable'
 import DashboardCabinCreate from '@/pages/dashboards/cabins/DashboardCabinCreate'
 import { Button } from '@/components/ui/Button'
 import Heading from '@/components/ui/Heading'
@@ -34,7 +34,7 @@ export default function DashboardCabins() {
         </DialogContent>
       </Dialog>
 
-      <DashboardCabinsTable />
+      <DashboardCabinsIndexTable />
     </>
   )
 }

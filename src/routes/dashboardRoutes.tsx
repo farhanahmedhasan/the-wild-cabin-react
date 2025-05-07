@@ -1,8 +1,8 @@
 import { Navigate, RouteObject } from 'react-router'
 
+import DashboardSettings from '@/pages/dashboards/settings/DashboardSettingsIndex'
 import DashboardCabins from '@/pages/dashboards/cabins/DashboardCabinIndex'
 import DashboardBookings from '@/pages/dashboards/DashboardBookings'
-import DashboardSettings from '@/pages/dashboards/DashboardSettings'
 import DashboardAccount from '@/pages/dashboards/DashboardAccount'
 import DashboardLayout from '@/layout/dashboard/DashboardLayout'
 import DashboardUsers from '@/pages/dashboards/DashboardUsers'

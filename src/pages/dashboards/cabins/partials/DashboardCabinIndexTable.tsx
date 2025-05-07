@@ -14,12 +14,12 @@ import DashboardCabinEdit from '@/pages/dashboards/cabins/DashboardCabinEdit'
 
 import useFetchCabins from '@/pages/dashboards/cabins/hooks/useFetchCabins'
 import useDeleteCabin from '@/pages/dashboards/cabins/hooks/useDeleteCabin'
+import useCreateCabin from '@/pages/dashboards/cabins/hooks/useCreateCabin'
 import DataTableRoot from '@/components/dataTable/DataTableRoot'
+import { CabinSchemaType } from '@/schemas/cabinSchema'
 import Spinner from '@/components/ui/Spinner'
 import { formatCurrency } from '@/lib/utils'
 import { ICabin } from '@/types/cabin'
-import { CabinSchemaType } from '@/schemas/cabinSchema'
-import useCreateCabin from '../hooks/useCreateCabin'
 
 const columns: ColumnDef<ICabin>[] = [
   {
@@ -118,7 +118,7 @@ const columns: ColumnDef<ICabin>[] = [
   }
 ]
 
-export default function DashboardCabinsTable() {
+export default function DashboardCabinsIndexTable() {
   const { isPending, cabins, isError } = useFetchCabins()
 
   if (isPending) return <Spinner containerClassName="relative -left-10 top-20" />
