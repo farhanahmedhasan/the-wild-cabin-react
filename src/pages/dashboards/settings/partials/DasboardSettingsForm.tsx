@@ -6,10 +6,10 @@ import useUpdateAppSetting from '@/pages/dashboards/settings/hooks/useUpdateAppS
 import { appSettingsSchema, AppSettingsSchemaType } from '@/schemas/appSettingsSchema'
 import useGetAppSetting from '@/pages/dashboards/settings/hooks/useGetAppSetting'
 import { Label } from '@/components/form/partials/Label'
+import { customToastError } from '@/components/toast'
 import FormInput from '@/components/form/FormInput'
 import { Button } from '@/components/ui/Button'
 import Spinner from '@/components/ui/Spinner'
-import { customToastError } from '@/components/toast'
 
 export default function DasboardSettingsForm() {
   const { settings, isLoading, isError, isSuccess } = useGetAppSetting()
