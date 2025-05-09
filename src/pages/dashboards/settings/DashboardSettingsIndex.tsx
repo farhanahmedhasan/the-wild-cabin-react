@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query'
-import { PencilIcon } from 'lucide-react'
 
 import { Label } from '@/components/form/partials/Label'
 import { getSettings } from '@/services/apiSettings'
@@ -16,7 +15,7 @@ export default function DashboardSettings() {
 
   return (
     <>
-      <Heading variant="h1" className="mb-4">
+      <Heading variant="h1" className="mb-12">
         Site Settings
       </Heading>
 
@@ -24,28 +23,24 @@ export default function DashboardSettings() {
         <div className="flex items-center gap-4">
           <Label className="w-28 md:text-base md:min-w-60">Breakfast Price</Label>
           <FormInput containerClassName="flex-1" defaultValue={settings.breakfast_price} />
-          <PencilIcon className="h-5 text-gray-700 cursor-pointer" />
         </div>
 
         <div className="flex items-center gap-4">
           <Label className="w-28 md:text-base md:min-w-60">Minimum Booking Days</Label>
           <FormInput containerClassName="flex-1" defaultValue={settings.min_booking_days} />
-          <PencilIcon className="h-5 text-gray-700 cursor-pointer" />
         </div>
 
         <div className="flex items-center gap-4">
           <Label className="w-28 md:text-base md:min-w-60">Max Booking Days</Label>
           <FormInput containerClassName="flex-1" defaultValue={settings.max_booking_days} />
-          <PencilIcon className="h-5 text-gray-700 cursor-pointer" />
         </div>
 
         <div className="flex items-center gap-4">
           <Label className="w-28 md:text-base md:min-w-60">Max Guests Per Booking</Label>
           <FormInput containerClassName="flex-1" defaultValue={settings.max_guests_per_booking} />
-          <PencilIcon className="h-5 text-gray-700 cursor-pointer" />
         </div>
 
-        <Button size="sm" type="button" className="float-left md:float-right">
+        <Button size="sm" type="submit" className="float-left md:float-right">
           Save settings
         </Button>
       </form>
