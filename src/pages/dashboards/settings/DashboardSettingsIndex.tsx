@@ -1,22 +1,38 @@
 import { appSettingsSchema, AppSettingsSchemaType } from '@/schemas/appSettingsSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 
+import { getAppSettings, updateAppSettings } from '@/services/apiSettings'
 import { Label } from '@/components/form/partials/Label'
-import { getSettings } from '@/services/apiSettings'
 import FormInput from '@/components/form/FormInput'
 import { Button } from '@/components/ui/Button'
 import Heading from '@/components/ui/Heading'
 import Spinner from '@/components/ui/Spinner'
+import { customToastError, customToastSuccess } from '@/components/toast'
 
 export default function DashboardSettings() {
-  const { data: settings, isPending, isError } = useQuery({ queryKey: ['settings'], queryFn: getSettings })
+  const {
+    data: settings,
+    isPending: isLoading,
+    isError
+  } = useQuery({ queryKey: ['settings'], queryFn: getAppSettings })
+  const { isPending: isUpdating, mutate } = useMutation({
+    mutationFn: updateAppSettings,
+    onSuccess: () => {
+      customToastSuccess('Settings has been updated successfully')
+    },
+    onError: () => {
+      customToastError('Sorry!!! We could not update the settings at the moment.')
+    }
+  })
+
   const {
     register,
     handleSubmit,
     reset,
+
     formState: { errors }
   } = useForm<AppSettingsSchemaType>({
     resolver: zodResolver(appSettingsSchema),
@@ -27,12 +43,11 @@ export default function DashboardSettings() {
     if (settings) reset(settings)
   }, [settings, reset])
 
-  if (isPending) return <Spinner />
+  if (isLoading) return <Spinner />
   if (isError) return <p>We couldn't load the settings.Please try again later.</p>
 
   function onUpdate(data: AppSettingsSchemaType) {
-    console.log(errors)
-    console.log(data)
+    mutate(data)
   }
 
   return (
@@ -81,7 +96,7 @@ export default function DashboardSettings() {
           />
         </div>
 
-        <Button size="sm" className="float-left md:float-right">
+        <Button size="sm" className="float-left md:float-right" disabled={isUpdating}>
           Save settings
         </Button>
       </form>
