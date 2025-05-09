@@ -9,6 +9,7 @@ import { Label } from '@/components/form/partials/Label'
 import FormInput from '@/components/form/FormInput'
 import { Button } from '@/components/ui/Button'
 import Spinner from '@/components/ui/Spinner'
+import { customToastError } from '@/components/toast'
 
 export default function DasboardSettingsForm() {
   const { settings, isLoading, isError, isSuccess } = useGetAppSetting()
@@ -17,7 +18,7 @@ export default function DasboardSettingsForm() {
     register,
     handleSubmit,
     reset,
-    formState: { errors }
+    formState: { errors, isDirty }
   } = useForm<AppSettingsSchemaType>({
     resolver: zodResolver(appSettingsSchema),
     defaultValues: settings
@@ -31,6 +32,10 @@ export default function DasboardSettingsForm() {
   if (isError) return <p>We couldn't load the settings.Please try again later.</p>
 
   function onUpdate(data: AppSettingsSchemaType) {
+    if (!isDirty) {
+      customToastError('Change setting before trying updating them.')
+      return
+    }
     updateMutateAppSettings(data)
   }
 
