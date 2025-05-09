@@ -12,9 +12,9 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip'
 import DashboardCabinEdit from '@/pages/dashboards/cabins/DashboardCabinEdit'
 
-import useFetchCabins from '@/pages/dashboards/cabins/hooks/useFetchCabins'
 import useDeleteCabin from '@/pages/dashboards/cabins/hooks/useDeleteCabin'
 import useCreateCabin from '@/pages/dashboards/cabins/hooks/useCreateCabin'
+import useGetCabins from '@/pages/dashboards/cabins/hooks/useGetCabins'
 import DataTableRoot from '@/components/dataTable/DataTableRoot'
 import { CabinSchemaType } from '@/schemas/cabinSchema'
 import Spinner from '@/components/ui/Spinner'
@@ -119,7 +119,7 @@ const columns: ColumnDef<ICabin>[] = [
 ]
 
 export default function DashboardCabinsIndexTable() {
-  const { isPending, cabins, isError } = useFetchCabins()
+  const { isPending, cabins, isError } = useGetCabins()
 
   if (isPending) return <Spinner containerClassName="relative -left-10 top-20" />
   if (isError) return <div className="text-xl text-red-700">Failed to load the cabins Try again later...</div>
