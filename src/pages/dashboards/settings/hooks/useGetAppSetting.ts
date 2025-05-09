@@ -1,7 +1,7 @@
-import { getAppSettings } from '@/services/apiSettings'
+import { getAppSettings } from '@/services/apiSetting'
 import { useQuery } from '@tanstack/react-query'
 
-export default function useGetAppSettings() {
+export default function useGetAppSetting() {
   const {
     data: settings = {},
     isPending: isLoading,

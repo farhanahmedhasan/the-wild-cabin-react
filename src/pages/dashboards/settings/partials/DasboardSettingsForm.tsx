@@ -2,17 +2,17 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 
-import useUpdateAppSettings from '@/pages/dashboards/settings/hooks/useUpdateAppSettings'
+import useUpdateAppSetting from '@/pages/dashboards/settings/hooks/useUpdateAppSetting'
 import { appSettingsSchema, AppSettingsSchemaType } from '@/schemas/appSettingsSchema'
-import useGetAppSettings from '@/pages/dashboards/settings/hooks/useGetAppSettings'
+import useGetAppSetting from '@/pages/dashboards/settings/hooks/useGetAppSetting'
 import { Label } from '@/components/form/partials/Label'
 import FormInput from '@/components/form/FormInput'
 import { Button } from '@/components/ui/Button'
 import Spinner from '@/components/ui/Spinner'
 
 export default function DasboardSettingsForm() {
-  const { settings, isLoading, isError, isSuccess } = useGetAppSettings()
-  const { isUpdating, updateMutateAppSettings } = useUpdateAppSettings()
+  const { settings, isLoading, isError, isSuccess } = useGetAppSetting()
+  const { isUpdating, updateMutateAppSettings } = useUpdateAppSetting()
   const {
     register,
     handleSubmit,
@@ -37,7 +37,9 @@ export default function DasboardSettingsForm() {
   return (
     <form className="font-poppins space-y-6" onSubmit={handleSubmit(onUpdate)}>
       <div className="flex items-center gap-4">
-        <Label className="w-28 md:text-base md:min-w-60">Breakfast Price</Label>
+        <Label htmlFor="breakfast_price" className="w-28 md:text-base md:min-w-60">
+          Breakfast Price
+        </Label>
         <FormInput
           containerClassName="flex-1"
           {...register('breakfast_price')}
@@ -46,7 +48,9 @@ export default function DasboardSettingsForm() {
       </div>
 
       <div className="flex items-center gap-4">
-        <Label className="w-28 md:text-base md:min-w-60">Minimum Booking Days</Label>
+        <Label htmlFor="min_booking_days" className="w-28 md:text-base md:min-w-60">
+          Minimum Booking Days
+        </Label>
         <FormInput
           type="number"
           containerClassName="flex-1"
@@ -56,7 +60,9 @@ export default function DasboardSettingsForm() {
       </div>
 
       <div className="flex items-center gap-4">
-        <Label className="w-28 md:text-base md:min-w-60">Max Booking Days</Label>
+        <Label htmlFor="max_booking_days" className="w-28 md:text-base md:min-w-60">
+          Max Booking Days
+        </Label>
         <FormInput
           type="number"
           containerClassName="flex-1"
@@ -66,7 +72,9 @@ export default function DasboardSettingsForm() {
       </div>
 
       <div className="flex items-center gap-4">
-        <Label className="w-28 md:text-base md:min-w-60">Max Guests Per Booking</Label>
+        <Label htmlFor="max_guests_per_booking" className="w-28 md:text-base md:min-w-60">
+          Max Guests Per Booking
+        </Label>
         <FormInput
           type="number"
           containerClassName="flex-1"
