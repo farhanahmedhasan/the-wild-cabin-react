@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import {
   Dialog,
   DialogContent,
@@ -10,13 +12,12 @@ import DashboardCabinsIndexTable from '@/pages/dashboards/cabins/partials/Dashbo
 import DashboardCabinCreate from '@/pages/dashboards/cabins/DashboardCabinCreate'
 import { Button } from '@/components/ui/Button'
 import Heading from '@/components/ui/Heading'
-import { useState } from 'react'
 
 export default function DashboardCabins() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   function handleClose() {
-    setIsModalOpen(false)
+    setIsOpen(false)
   }
 
   return (
@@ -26,7 +27,7 @@ export default function DashboardCabins() {
         <p>Filter / Sort</p>
       </div>
 
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger className="mb-8" asChild>
           <Button size="sm">Create a cabin</Button>
         </DialogTrigger>
