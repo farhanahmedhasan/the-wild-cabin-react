@@ -1,4 +1,4 @@
-import { CopyIcon, PencilIcon, TrashIcon } from 'lucide-react'
+import { CopyIcon, PencilIcon } from 'lucide-react'
 import { ColumnDef } from '@tanstack/react-table'
 
 import {
@@ -9,10 +9,9 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/Dialog'
+import DashboardCabinDeleteDialog from '@/pages/dashboards/cabins/partials/DashboardCabinDeleteDialog'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip'
 import DashboardCabinEdit from '@/pages/dashboards/cabins/DashboardCabinEdit'
-
-import useDeleteCabin from '@/pages/dashboards/cabins/hooks/useDeleteCabin'
 import useCreateCabin from '@/pages/dashboards/cabins/hooks/useCreateCabin'
 import useGetCabins from '@/pages/dashboards/cabins/hooks/useGetCabins'
 import DataTableRoot from '@/components/dataTable/DataTableRoot'
@@ -62,12 +61,8 @@ const columns: ColumnDef<ICabin>[] = [
   {
     header: 'Actions',
     cell: ({ row }) => {
-      // TODO: can't use hooks here ts error
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { isDeleting, deleteCabinMutate } = useDeleteCabin()
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { isCreating, createCabinMutate } = useCreateCabin()
-
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       function handleDuplicate({ id, ...cabin }: CabinSchemaType) {
         const newCabinDuplicate = {
@@ -93,7 +88,7 @@ const columns: ColumnDef<ICabin>[] = [
               </Tooltip>
             </DialogTrigger>
 
-            <DialogContent className="font-poppins">
+            <DialogContent>
               <DialogHeader>
                 <DialogTitle>
                   Edit cabin :
@@ -106,12 +101,7 @@ const columns: ColumnDef<ICabin>[] = [
             </DialogContent>
           </Dialog>
 
-          <button disabled={isDeleting}>
-            <TrashIcon
-              className="h-5 text-red-600 cursor-pointer"
-              onClick={() => deleteCabinMutate({ id: row.original.id, image: row.original.image })}
-            />
-          </button>
+          <DashboardCabinDeleteDialog id={row.original.id} image={row.original.image} />
         </div>
       )
     }
