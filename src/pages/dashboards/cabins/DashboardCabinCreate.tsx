@@ -9,7 +9,11 @@ import UploadImage from '@/components/form/UploadImage'
 import FormInput from '@/components/form/FormInput'
 import { Button } from '@/components/ui/Button'
 
-export default function DashboardCabinCreate() {
+interface IProps {
+  onCabinCreate: () => void
+}
+
+export default function DashboardCabinCreate(props: IProps) {
   const {
     register,
     handleSubmit,
@@ -23,7 +27,12 @@ export default function DashboardCabinCreate() {
 
   function onSubmit(data: CabinSchemaType) {
     const image = data.image?.[0] ?? null
-    createCabinMutate({ ...data, image })
+    createCabinMutate(
+      { ...data, image },
+      {
+        onSuccess: () => props.onCabinCreate()
+      }
+    )
   }
 
   return (
