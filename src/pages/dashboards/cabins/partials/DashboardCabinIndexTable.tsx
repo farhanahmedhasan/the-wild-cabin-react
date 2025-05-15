@@ -1,18 +1,8 @@
-import { PencilIcon } from 'lucide-react'
 import { ColumnDef } from '@tanstack/react-table'
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from '@/components/ui/Dialog'
 import DashboardCabinDuplicateDialog from '@/pages/dashboards/cabins/partials/DashboardCabinDuplicateDialog'
 import DashboardCabinDeleteDialog from '@/pages/dashboards/cabins/partials/DashboardCabinDeleteDialog'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip'
-import DashboardCabinEdit from '@/pages/dashboards/cabins/DashboardCabinEdit'
+import DashboardCabinEditDialog from '@/pages/dashboards/cabins/partials/DashboardCabinEditDialog'
 import useGetCabins from '@/pages/dashboards/cabins/hooks/useGetCabins'
 import DataTableRoot from '@/components/dataTable/DataTableRoot'
 import Spinner from '@/components/ui/Spinner'
@@ -63,30 +53,7 @@ const columns: ColumnDef<ICabin>[] = [
       return (
         <div className="flex items-center gap-1.5">
           <DashboardCabinDuplicateDialog cabin={row.original} />
-
-          <Dialog>
-            <DialogTrigger>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <PencilIcon className="h-5 text-gray-700 cursor-pointer" />
-                </TooltipTrigger>
-                <TooltipContent children="Edit this cabin" />
-              </Tooltip>
-            </DialogTrigger>
-
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>
-                  Edit cabin :
-                  <span className="text-xl ml-1 font-sono text-primary-700 font-medium">{row.original.name}</span>
-                </DialogTitle>
-                <DialogDescription>Edit cabin informations here. Click update when you're done.</DialogDescription>
-              </DialogHeader>
-
-              <DashboardCabinEdit cabin={row.original} />
-            </DialogContent>
-          </Dialog>
-
+          <DashboardCabinEditDialog cabin={row.original} />
           <DashboardCabinDeleteDialog id={row.original.id} image={row.original.image} />
         </div>
       )

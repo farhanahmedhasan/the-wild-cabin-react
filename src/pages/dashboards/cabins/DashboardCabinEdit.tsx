@@ -12,9 +12,9 @@ import { Button } from '@/components/ui/Button'
 
 interface IProps {
   cabin: CabinSchemaType
+  onCloseDialog: () => void
 }
 
-// TODO: when update cabin, we want our modal to stay open and reflect defaultValues with updated data
 // TODO: make sure user can't update(send api call) if no data or image changes. do shallow comparison
 
 export default function DashboardCabinEdit(props: IProps) {
@@ -39,7 +39,7 @@ export default function DashboardCabinEdit(props: IProps) {
       newImage = data.image?.[0] ?? null
     }
 
-    updateCabinMutate({ ...formattedData, image: newImage })
+    updateCabinMutate({ ...formattedData, image: newImage }, { onSuccess: () => props.onCloseDialog() })
   }
 
   return (
