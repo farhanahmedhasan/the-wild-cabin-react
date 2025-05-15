@@ -1,4 +1,4 @@
-import { CopyIcon, PencilIcon } from 'lucide-react'
+import { PencilIcon } from 'lucide-react'
 import { ColumnDef } from '@tanstack/react-table'
 
 import {
@@ -9,13 +9,12 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/Dialog'
+import DashboardCabinDuplicateDialog from '@/pages/dashboards/cabins/partials/DashboardCabinDuplicateDialog'
 import DashboardCabinDeleteDialog from '@/pages/dashboards/cabins/partials/DashboardCabinDeleteDialog'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip'
 import DashboardCabinEdit from '@/pages/dashboards/cabins/DashboardCabinEdit'
-import useCreateCabin from '@/pages/dashboards/cabins/hooks/useCreateCabin'
 import useGetCabins from '@/pages/dashboards/cabins/hooks/useGetCabins'
 import DataTableRoot from '@/components/dataTable/DataTableRoot'
-import { CabinSchemaType } from '@/schemas/cabinSchema'
 import Spinner from '@/components/ui/Spinner'
 import { formatCurrency } from '@/lib/utils'
 import { ICabin } from '@/types/cabin'
@@ -61,22 +60,9 @@ const columns: ColumnDef<ICabin>[] = [
   {
     header: 'Actions',
     cell: ({ row }) => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { isCreating, createCabinMutate } = useCreateCabin()
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      function handleDuplicate({ id, ...cabin }: CabinSchemaType) {
-        const newCabinDuplicate = {
-          ...cabin,
-          name: `Copy of ${cabin.name}`
-        }
-        createCabinMutate(newCabinDuplicate)
-      }
-
       return (
         <div className="flex items-center gap-1.5">
-          <button disabled={isCreating} onClick={() => handleDuplicate(row.original)}>
-            <CopyIcon className="h-5 cursor-pointer" />
-          </button>
+          <DashboardCabinDuplicateDialog cabin={row.original} />
 
           <Dialog>
             <DialogTrigger>
