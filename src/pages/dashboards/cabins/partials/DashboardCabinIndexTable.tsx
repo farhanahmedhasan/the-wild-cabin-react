@@ -16,14 +16,10 @@ const columns: ColumnDef<ICabin>[] = [
     size: 80,
     cell: ({ row }) => (
       <div className="w-full h-18 rounded-md bg-gray-200">
-        {!row.getValue('image') ? (
+        {!row.original.image ? (
           <span className="h-full w-full"></span>
         ) : (
-          <img
-            src={row.getValue('image')}
-            alt={row.getValue('name')}
-            className="h-full w-full rounded-md object-cover"
-          />
+          <img src={row.original.image} alt={row.original.name} className="h-full w-full rounded-md object-cover" />
         )}
       </div>
     )
@@ -35,17 +31,17 @@ const columns: ColumnDef<ICabin>[] = [
   {
     accessorKey: 'max_capacity',
     header: 'Capacity',
-    cell: ({ row }) => `Upto ${row.getValue('max_capacity')} guests`
+    cell: ({ row }) => `Upto ${row.original.max_capacity} guests`
   },
   {
     accessorKey: 'regular_price',
     header: 'Price',
-    cell: ({ row }) => formatCurrency(row.getValue('regular_price'))
+    cell: ({ row }) => formatCurrency(row.original.regular_price)
   },
   {
     accessorKey: 'discount',
     header: 'Discount',
-    cell: ({ row }) => <span className="text-green-700">{formatCurrency(row.getValue('discount'))}</span>
+    cell: ({ row }) => <span className="text-green-700">{formatCurrency(row.original.discount)}</span>
   },
   {
     header: 'Actions',
