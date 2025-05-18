@@ -1,17 +1,33 @@
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  useReactTable
+} from '@tanstack/react-table'
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/Table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table'
 
 interface IDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  columnFilters?: ColumnFiltersState
 }
 
-export default function DataTableRoot<TData, TValue>({ columns, data }: IDataTableProps<TData, TValue>) {
+export default function DataTableRoot<TData, TValue>({
+  columns,
+  data,
+  columnFilters = []
+}: IDataTableProps<TData, TValue>) {
   const table = useReactTable({
-    data: data,
+    data,
     columns,
-    getCoreRowModel: getCoreRowModel()
+    state: {
+      columnFilters
+    },
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel()
   })
 
   return (

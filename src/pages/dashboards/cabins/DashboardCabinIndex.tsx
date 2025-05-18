@@ -10,12 +10,13 @@ import {
 } from '@/components/ui/Dialog'
 import DashboardCabinsIndexTable from '@/pages/dashboards/cabins/partials/DashboardCabinIndexTable'
 import DashboardCabinCreate from '@/pages/dashboards/cabins/DashboardCabinCreate'
+import Filter from '@/components/filters/Filter'
 import { Button } from '@/components/ui/Button'
 import Heading from '@/components/ui/Heading'
-import Filter from '@/components/filters/Filter'
 
 export default function DashboardCabins() {
   const [isOpen, setIsOpen] = useState(false)
+  const [discountFilter, setDiscountFilter] = useState<string>('')
 
   function handleClose() {
     setIsOpen(false)
@@ -25,9 +26,7 @@ export default function DashboardCabins() {
     <>
       <div className="flex justify-between items-center mb-4">
         <Heading variant="h1">All cabins</Heading>
-        <div>
-          <Filter />
-        </div>
+        <Filter value={discountFilter} onChange={setDiscountFilter} />
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -45,7 +44,7 @@ export default function DashboardCabins() {
         </DialogContent>
       </Dialog>
 
-      <DashboardCabinsIndexTable />
+      <DashboardCabinsIndexTable filterVal={discountFilter} />
     </>
   )
 }
