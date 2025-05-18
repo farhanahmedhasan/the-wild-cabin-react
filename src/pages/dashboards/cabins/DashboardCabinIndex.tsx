@@ -12,6 +12,7 @@ import DashboardCabinsIndexTable from '@/pages/dashboards/cabins/partials/Dashbo
 import DashboardCabinCreate from '@/pages/dashboards/cabins/DashboardCabinCreate'
 import { Button } from '@/components/ui/Button'
 import Heading from '@/components/ui/Heading'
+import Filter from '@/components/filters/Filter'
 
 export default function DashboardCabins() {
   const [isOpen, setIsOpen] = useState(false)
@@ -24,7 +25,9 @@ export default function DashboardCabins() {
     <>
       <div className="flex justify-between items-center mb-4">
         <Heading variant="h1">All cabins</Heading>
-        <p>Filter / Sort</p>
+        <div>
+          <Filter />
+        </div>
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>

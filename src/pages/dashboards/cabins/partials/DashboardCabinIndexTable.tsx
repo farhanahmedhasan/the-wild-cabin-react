@@ -6,6 +6,7 @@ import DataTableRoot from '@/components/dataTable/DataTableRoot'
 import Spinner from '@/components/ui/Spinner'
 import { formatCurrency } from '@/lib/utils'
 import { ICabin } from '@/types/cabin'
+import { useSearchParams } from 'react-router'
 
 const columns: ColumnDef<ICabin>[] = [
   {
@@ -51,9 +52,19 @@ const columns: ColumnDef<ICabin>[] = [
 
 export default function DashboardCabinsIndexTable() {
   const { isPending, cabins, isError } = useGetCabins()
+  const [searchParams] = useSearchParams()
+
+  const filterVal = searchParams.get('discount') ?? 'all'
+
+  const filterdCabins = cabins?.filter((cabin) => {
+    if (filterVal === 'all') return cabin
+    if (filterVal === 'discount') return cabin.discount > 0
+    if (filterVal === 'no-discount') return cabin.discount === 0
+    return true
+  })
 
   if (isPending) return <Spinner containerClassName="relative -left-10 top-20" />
   if (isError) return <div className="text-xl text-red-700">Failed to load the cabins Try again later...</div>
 
-  return <DataTableRoot columns={columns} data={cabins} />
+  return <DataTableRoot columns={columns} data={filterdCabins || []} />
 }
