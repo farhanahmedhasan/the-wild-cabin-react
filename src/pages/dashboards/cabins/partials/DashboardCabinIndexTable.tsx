@@ -1,8 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table'
 
-import DashboardCabinDuplicateDialog from '@/pages/dashboards/cabins/partials/DashboardCabinDuplicateDialog'
-import DashboardCabinDeleteDialog from '@/pages/dashboards/cabins/partials/DashboardCabinDeleteDialog'
-import DashboardCabinEditDialog from '@/pages/dashboards/cabins/partials/DashboardCabinEditDialog'
+import DashboardCabinIndexTableActions from '@/pages/dashboards/cabins/partials/DashboardCabinIndexTableActions'
 import useGetCabins from '@/pages/dashboards/cabins/hooks/useGetCabins'
 import DataTableRoot from '@/components/dataTable/DataTableRoot'
 import Spinner from '@/components/ui/Spinner'
@@ -46,13 +44,7 @@ const columns: ColumnDef<ICabin>[] = [
   {
     header: 'Actions',
     cell: ({ row }) => {
-      return (
-        <div className="flex items-center gap-1.5">
-          <DashboardCabinDuplicateDialog cabin={row.original} />
-          <DashboardCabinEditDialog cabin={row.original} />
-          <DashboardCabinDeleteDialog id={row.original.id} image={row.original.image} />
-        </div>
-      )
+      return <DashboardCabinIndexTableActions cabin={row.original} />
     }
   }
 ]
