@@ -65,17 +65,16 @@ function DashboardCabinDeleteDialog(props: ICabinDeleteProps) {
       <DialogContent className="text-center py-8 !h-fit !max-w-md overflow-hidden">
         <DialogHeader>
           <DialogTitle>Confirm to delete the Cabin.</DialogTitle>
-
           <DialogDescription>Are you sure you want to delete the cabin?</DialogDescription>
-          <div className="flex items-center gap-4 justify-center mt-2">
-            <Button variant="danger" size="sm" disabled={isDeleting} onClick={handleDeleteCabin}>
-              Yes
-            </Button>
-            <Button variant="primary" size="sm" onClick={() => setIsDialogOpen(false)}>
-              No
-            </Button>
-          </div>
         </DialogHeader>
+        <div className="flex items-center gap-4 justify-center mt-2">
+          <Button variant="danger" size="sm" disabled={isDeleting} onClick={handleDeleteCabin}>
+            Yes
+          </Button>
+          <Button variant="primary" size="sm" onClick={() => setIsDialogOpen(false)}>
+            No
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   )
@@ -114,17 +113,16 @@ function DashboardCabinDuplicateDialog(props: IProps) {
       <DialogContent className="text-center py-8 !h-fit !max-w-md overflow-hidden">
         <DialogHeader>
           <DialogTitle>Confirm to duplicate the Cabin.</DialogTitle>
-
           <DialogDescription>Are you sure you want to duplicate the cabin?</DialogDescription>
-          <div className="flex items-center gap-4 justify-center mt-2">
-            <Button variant="danger" size="sm" disabled={isCreating} onClick={() => handleDuplicate(props.cabin)}>
-              Yes
-            </Button>
-            <Button variant="primary" size="sm" onClick={() => setIsDialogOpen(false)}>
-              No
-            </Button>
-          </div>
         </DialogHeader>
+        <div className="flex items-center gap-4 justify-center mt-2">
+          <Button variant="danger" size="sm" disabled={isCreating} onClick={() => handleDuplicate(props.cabin)}>
+            Yes
+          </Button>
+          <Button variant="primary" size="sm" onClick={() => setIsDialogOpen(false)}>
+            No
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   )
@@ -154,7 +152,6 @@ function DashboardCabinEditDialog(props: IProps) {
           </DialogTitle>
           <DialogDescription>Edit cabin informations here. Click update when you're done.</DialogDescription>
         </DialogHeader>
-
         <DashboardCabinEdit cabin={props.cabin} onCloseDialog={() => setIsDialogOpen(false)} />
       </DialogContent>
     </Dialog>
