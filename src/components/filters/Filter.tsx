@@ -1,24 +1,25 @@
 import { useSearchParams } from 'react-router'
-import { useEffect, useState } from 'react'
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 
 export default function Filter() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const initialFilter = searchParams.get('discount') || 'all'
-  const [filterValue, setFilterValue] = useState(initialFilter)
+  const value = searchParams.get('discount') || ''
 
   function handleFilter(value: string) {
-    setFilterValue(value)
+    if (value === 'all') {
+      searchParams.delete('discount')
+    }
+
+    if (value !== 'all') {
+      searchParams.set('discount', value)
+    }
+
+    setSearchParams(searchParams)
   }
 
-  useEffect(() => {
-    searchParams.set('discount', filterValue)
-    setSearchParams(searchParams)
-  }, [filterValue, searchParams, setSearchParams])
-
   return (
-    <Select value={filterValue} onValueChange={handleFilter}>
+    <Select value={value} onValueChange={handleFilter}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="All Cabins" />
       </SelectTrigger>
