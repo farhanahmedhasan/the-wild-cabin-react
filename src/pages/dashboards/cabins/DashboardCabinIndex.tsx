@@ -9,8 +9,8 @@ import {
   DialogTrigger
 } from '@/components/ui/Dialog'
 import DashboardCabinsIndexTable from '@/pages/dashboards/cabins/partials/DashboardCabinIndexTable'
-import DashboardCabinCreate from '@/pages/dashboards/cabins/DashboardCabinCreate'
 import { dashboardCabinDiscountFilter, dashboardCabinSortByFilter } from '@/data/filtersData'
+import DashboardCabinCreate from '@/pages/dashboards/cabins/DashboardCabinCreate'
 import Filter from '@/components/filters/Filter'
 import { Button } from '@/components/ui/Button'
 import Heading from '@/components/ui/Heading'
