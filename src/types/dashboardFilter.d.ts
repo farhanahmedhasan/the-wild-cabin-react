@@ -1,4 +1,4 @@
-export interface IDashboardCabinDiscountFilter {
+export interface IDashboardFilter {
   placeholder: string
   filterKey: string
   options: IOptions[]

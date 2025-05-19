@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/Dialog'
 import DashboardCabinsIndexTable from '@/pages/dashboards/cabins/partials/DashboardCabinIndexTable'
 import DashboardCabinCreate from '@/pages/dashboards/cabins/DashboardCabinCreate'
-import { dashboardCabinDiscountFilter } from '@/data/filtersData'
+import { dashboardCabinDiscountFilter, dashboardCabinSortByFilter } from '@/data/filtersData'
 import Filter from '@/components/filters/Filter'
 import { Button } from '@/components/ui/Button'
 import Heading from '@/components/ui/Heading'
@@ -26,7 +26,10 @@ export default function DashboardCabinsIndex() {
     <>
       <div className="flex justify-between items-center mb-4">
         <Heading variant="h1">All cabins</Heading>
-        <Filter discountFilter={dashboardCabinDiscountFilter} />
+        <div className="flex items-center gap-2">
+          <Filter filterData={dashboardCabinDiscountFilter} />
+          <Filter filterData={dashboardCabinSortByFilter} />
+        </div>
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>

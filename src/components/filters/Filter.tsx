@@ -1,32 +1,30 @@
 import { useSearchParams } from 'react-router'
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
-import { IDashboardCabinDiscountFilter } from '@/types/filters/dashboardCabinDiscountFilter'
+import { IDashboardFilter } from '@/types/dashboardFilter'
 
 interface IProps {
-  discountFilter: IDashboardCabinDiscountFilter
+  filterData: IDashboardFilter
 }
 
 export default function Filter(props: IProps) {
   const [searchParams, setSearchParams] = useSearchParams()
-  const discountFilter = searchParams.get(props.discountFilter.filterKey) ?? ''
-
-  console.log(props.discountFilter.placeholder)
+  const filterKey = searchParams.get(props.filterData.filterKey) ?? ''
 
   function handleChange(val: string) {
-    if (val === 'all') searchParams.delete(props.discountFilter.filterKey)
-    if (val !== 'all') searchParams.set(props.discountFilter.filterKey, val)
+    if (val === 'all') searchParams.delete(props.filterData.filterKey)
+    if (val !== 'all') searchParams.set(props.filterData.filterKey, val)
     setSearchParams(searchParams)
   }
 
   return (
-    <Select value={discountFilter} onValueChange={handleChange}>
+    <Select value={filterKey} onValueChange={handleChange}>
       <SelectTrigger className="w-[200px]">
-        <SelectValue placeholder={props.discountFilter.placeholder} />
+        <SelectValue placeholder={props.filterData.placeholder} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {props.discountFilter.options.map((option) => (
+          {props.filterData.options.map((option) => (
             <SelectItem key={option.value} value={option.value}>
               {option.name}
             </SelectItem>
