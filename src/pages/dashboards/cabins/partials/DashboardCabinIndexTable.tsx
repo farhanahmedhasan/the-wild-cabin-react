@@ -1,4 +1,5 @@
 import { ColumnDef, ColumnFiltersState } from '@tanstack/react-table'
+import { useSearchParams } from 'react-router'
 import { useEffect, useState } from 'react'
 
 import DashboardCabinIndexTableActions from '@/pages/dashboards/cabins/partials/DashboardCabinIndexTableActions'
@@ -8,19 +9,18 @@ import Spinner from '@/components/ui/Spinner'
 import { formatCurrency } from '@/lib/utils'
 import { ICabin } from '@/types/cabin'
 
-interface IProps {
-  filterVal: string
-}
-
-export default function DashboardCabinsIndexTable(props: IProps) {
+export default function DashboardCabinsIndexTable() {
   const { isPending, cabins, isError } = useGetCabins()
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [searchParams] = useSearchParams()
+
+  const discountFilter = searchParams.get('discount') ?? ''
 
   useEffect(() => {
-    setColumnFilters(props.filterVal === 'all' ? [] : [{ id: 'discount', value: props.filterVal }])
-  }, [props.filterVal])
+    setColumnFilters(discountFilter === '' ? [] : [{ id: 'discount', value: discountFilter }])
+  }, [discountFilter])
 
-  const columns = getCabinsColumns(props.filterVal)
+  const columns = getCabinsColumns(discountFilter)
 
   if (isPending) return <Spinner containerClassName="relative -left-10 top-20" />
   if (isError) return <div className="text-xl text-red-700">Failed to load the cabins Try again later...</div>

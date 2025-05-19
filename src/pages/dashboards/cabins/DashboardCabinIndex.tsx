@@ -16,7 +16,6 @@ import Heading from '@/components/ui/Heading'
 
 export default function DashboardCabins() {
   const [isOpen, setIsOpen] = useState(false)
-  const [discountFilter, setDiscountFilter] = useState<string>('')
 
   function handleClose() {
     setIsOpen(false)
@@ -26,7 +25,7 @@ export default function DashboardCabins() {
     <>
       <div className="flex justify-between items-center mb-4">
         <Heading variant="h1">All cabins</Heading>
-        <Filter value={discountFilter} onChange={setDiscountFilter} />
+        <Filter />
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -44,7 +43,7 @@ export default function DashboardCabins() {
         </DialogContent>
       </Dialog>
 
-      <DashboardCabinsIndexTable filterVal={discountFilter} />
+      <DashboardCabinsIndexTable />
     </>
   )
 }

@@ -1,18 +1,11 @@
 import { useSearchParams } from 'react-router'
-
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 
-interface IProps {
-  value: string
-  onChange: (value: string) => void
-}
-
-export default function Filter(props: IProps) {
+export default function Filter() {
   const [searchParams, setSearchParams] = useSearchParams()
+  const discountFilter = searchParams.get('discount') ?? ''
 
   function handleChange(val: string) {
-    props.onChange(val)
-
     if (val === 'all') searchParams.delete('discount')
 
     if (val !== 'all') {
@@ -23,7 +16,7 @@ export default function Filter(props: IProps) {
   }
 
   return (
-    <Select value={props.value} onValueChange={handleChange}>
+    <Select value={discountFilter} onValueChange={handleChange}>
       <SelectTrigger className="w-[200px]">
         <SelectValue placeholder="Filter by discount" />
       </SelectTrigger>
