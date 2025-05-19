@@ -1,4 +1,4 @@
-import { ColumnDef, ColumnFiltersState } from '@tanstack/react-table'
+import { ColumnDef, ColumnFiltersState, SortingState } from '@tanstack/react-table'
 import { useSearchParams } from 'react-router'
 import { useEffect, useState } from 'react'
 
@@ -12,23 +12,39 @@ import { ICabin } from '@/types/cabin'
 export default function DashboardCabinsIndexTable() {
   const { isPending, cabins, isError } = useGetCabins()
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [sorting, setSorting] = useState<SortingState>([])
   const [searchParams] = useSearchParams()
 
-  const discountFilter = searchParams.get('discount') ?? ''
+  const discountFilterVal = searchParams.get('discount') ?? ''
+  const sortByFilterVal = searchParams.get('sortBy') ?? ''
 
   useEffect(() => {
-    setColumnFilters(discountFilter === '' ? [] : [{ id: 'discount', value: discountFilter }])
-  }, [discountFilter])
+    setColumnFilters(discountFilterVal === '' ? [] : [{ id: 'discount', value: discountFilterVal }])
+  }, [discountFilterVal])
 
-  const columns = getCabinsColumns(discountFilter)
+  useEffect(() => {
+    function getSortingFromFilter(val: string): SortingState {
+      if (val === 'name-asc') return [{ id: 'name', desc: false }]
+      if (val === 'name-desc') return [{ id: 'name', desc: true }]
+      if (val === 'price-asc') return [{ id: 'regular_price', desc: false }]
+      if (val === 'price-desc') return [{ id: 'regular_price', desc: true }]
+      if (val === 'guest-asc') return [{ id: 'max_capacity', desc: false }]
+      if (val === 'guest-desc') return [{ id: 'max_capacity', desc: true }]
+      return []
+    }
+
+    setSorting(getSortingFromFilter(sortByFilterVal))
+  }, [sortByFilterVal])
+
+  const columns = getCabinsColumns(discountFilterVal)
 
   if (isPending) return <Spinner containerClassName="relative -left-10 top-20" />
   if (isError) return <div className="text-xl text-red-700">Failed to load the cabins Try again later...</div>
 
-  return <DataTableRoot columns={columns} data={cabins || []} columnFilters={columnFilters} />
+  return <DataTableRoot columns={columns} data={cabins || []} columnFilters={columnFilters} sorting={sorting} />
 }
 
-function getCabinsColumns(filterVal: string): ColumnDef<ICabin>[] {
+function getCabinsColumns(discountFilter: string): ColumnDef<ICabin>[] {
   return [
     {
       accessorKey: 'image',
@@ -46,16 +62,19 @@ function getCabinsColumns(filterVal: string): ColumnDef<ICabin>[] {
     },
     {
       accessorKey: 'name',
-      header: 'Name'
+      header: 'Name',
+      enableSorting: true
     },
     {
       accessorKey: 'max_capacity',
       header: 'Capacity',
+      enableSorting: true,
       cell: ({ row }) => `Upto ${row.original.max_capacity} guests`
     },
     {
       accessorKey: 'regular_price',
       header: 'Price',
+      enableSorting: true,
       cell: ({ row }) => formatCurrency(row.original.regular_price)
     },
     {
@@ -63,8 +82,8 @@ function getCabinsColumns(filterVal: string): ColumnDef<ICabin>[] {
       header: 'Discount',
       cell: ({ row }) => <span className="text-green-700">{formatCurrency(row.original.discount)}</span>,
       filterFn: (row) => {
-        if (filterVal === 'discount') return row.original.discount > 0
-        if (filterVal === 'no-discount') return row.original.discount === 0
+        if (discountFilter === 'discount') return row.original.discount > 0
+        if (discountFilter === 'no-discount') return row.original.discount === 0
         return true
       }
     },
