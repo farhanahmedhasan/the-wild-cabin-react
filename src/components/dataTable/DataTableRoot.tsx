@@ -15,7 +15,7 @@ interface IDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   columnFilters?: ColumnFiltersState
-  sorting: SortingState
+  sorting?: SortingState
 }
 
 export default function DataTableRoot<TData, TValue>({

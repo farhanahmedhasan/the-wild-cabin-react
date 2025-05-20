@@ -1,12 +1,11 @@
 import { Navigate, RouteObject } from 'react-router'
 
 import DashboardSettings from '@/pages/dashboards/settings/DashboardSettingsIndex'
+import DashboardBookings from '@/pages/dashboards/bookings/DashboardBookingsIndex'
 import DashboardCabins from '@/pages/dashboards/cabins/DashboardCabinIndex'
-import DashboardBookings from '@/pages/dashboards/bookings/DashboardBookings'
-
-import DashboardLayout from '@/layout/dashboard/DashboardLayout'
 import DashboardUsers from '@/pages/dashboards/users/DashboardUsers'
 import DashboardHome from '@/pages/dashboards/home/DashboardHome'
+import DashboardLayout from '@/layout/dashboard/DashboardLayout'
 
 const dashboardRoutes: RouteObject[] = [
   {
